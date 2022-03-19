@@ -256,7 +256,7 @@ const ChatBox = () => {
 
   return chatloading ? (
     <Search_loading />
-  ) : CurrChat ? (
+  ) : CurrChat.chatName ? (
     <>
       {/* Modal for cretaing group chat */}
       <div className="row center">
