@@ -31,7 +31,7 @@ export const MessageReducer = (
     case GET_ALL_MESSAGES_SUCCESS:
       return { ...state, chatisloading: false, Messages: action.payload };
     case GET_ALL_MESSAGES_WHILE_EXISTING:
-      return { ...state, Messages: action.payload };
+      return { ...state, chatisloading:false,Messages: action.payload };
     case APPPEND_MESSAGE:
       if (state.Messages.find((e) => e._id === action.payload._id)) {
         console.log("Messsage added");
