@@ -1,0 +1,430 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: url("./Images/background.png");
+  background-size: cover;
+  background-position: center;
+}
+
+/*Home page/Login page */
+.flexer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  background-color: #ffff;
+  border-radius: 0.5rem;
+  margin: 0.2rem;
+  padding: 1rem;
+}
+.text {
+  padding: 1rem;
+  font-size: larger;
+  font-weight: 600;
+}
+.navflex {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-direction: row;
+  /* background-color: aqua; */
+}
+
+/* Nabbar avator css */
+.avatar {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+/* profile page image css */
+.profile {
+  width: 8rem;
+  height: 8rem;
+}
+
+/* search users display card */
+.searchcard {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+  transition: all 2s;
+  overflow-x: scroll;
+  cursor: pointer;
+  /* overflow-y: scroll;
+  overflow-x: scroll; */
+}
+.searchcard:hover {
+  background-color: aqua;
+}
+.searchcard:hover img {
+  border: 0.2px solid red;
+}
+
+::-webkit-scrollbar {
+  width: 0.1rem;
+}
+.flexer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+/* loading shown when search result loading */
+
+.roll1 {
+  width: 8rem;
+  height: 8rem;
+  border: 4px solid rgb(173, 151, 151);
+  border-radius: 5rem;
+  background-color: yellow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 3s;
+  animation: rotate 2s infinite alternate;
+}
+
+.roll2 {
+  width: 6rem;
+  height: 6rem;
+  border: 4px solid rgb(204, 172, 172);
+  border-radius: 3rem;
+  background-color: yellow;
+  border-radius: 4rem;
+  transition: all 5s;
+  animation: rotate 3s infinite alternate;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+    background-color: aqua;
+  }
+  to {
+    transform: rotate(360deg);
+    background-color: rgb(88, 88, 158);
+  }
+}
+
+/* chat list card styling */
+
+.chatcont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.2rem;
+  padding: 0.3rem;
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 0.8rem;
+  transition: all 3s;
+  cursor: pointer;
+}
+.chatcont:hover .imgcont img {
+  border: 2px solid blue;
+}
+.chatcont:hover {
+  background-color: aqua;
+}
+.imgcont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.detailscont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0.3rem;
+}
+/*Navbar at top of my chats*/
+.chatsnavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem;
+  margin: 0.3rem;
+}
+
+.chatsnavbar .buttonwrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.2rem;
+  background-color: rgb(161, 161, 161);
+  border-radius: 0.3rem;
+  transition: all 5s;
+}
+.buttonwrap:hover .icon {
+  color: blue;
+  transform: translate(1, 2);
+}
+.buttonwrap button {
+  margin: 0.2rem;
+}
+.buttonwrap i {
+  margin: 0.2rem;
+}
+
+/* css for box showing chat list */
+
+.allchats {
+  height: 36rem;
+  /* overflow-y: hidden; */
+  /* overflow-y: scroll; */
+}
+.allchats .chatlist {
+  padding: 0.6rem;
+  height: 28rem;
+  border-radius: 0.5rem;
+  border: 2px solid black;
+  overflow-y: scroll;
+}
+
+/*Chat box related CSS*/
+.chatmainbox {
+  height: 36rem;
+  border-radius: 0.6rem;
+  border: 2px solid black;
+}
+.messagebox {
+  border-radius: 0.6rem;
+  border: 2px solid black;
+  height: 28rem;
+  overflow-y: scroll;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.messagebox div {
+  border: 2px solid black;
+  border-radius: 0.8rem;
+  padding: 0.5rem;
+  width: 10rem;
+}
+.left {
+  background-color: #ffee00;
+  margin-right: 60%;
+  margin-left: 1%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+
+.right {
+  background-color: #f8a304;
+  margin-left: auto;
+  margin-right: 1%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.chattext {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.6rem;
+  padding: 0.1rem;
+}
+.iconwrap {
+  border: 2px solid black;
+  border-radius: 0.4rem;
+  background-color: rgb(161, 161, 161);
+  margin-right: 2rem;
+}
+.iconwrap .fa-eye {
+  padding: 0.3rem;
+}
+.textbox {
+  border: 2px solid black;
+  border-radius: 0.6rem;
+  height: 2.5rem;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background-color: rgb(161, 161, 161);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.textbox input {
+  width: 80%;
+  height: 2rem;
+  border-radius: 2rem;
+  padding: 0.2rem;
+}
+.textbox .sendbtn {
+  padding: 0.3rem;
+  border: 2px solid black;
+  border-radius: 0.3rem;
+  width: 18%;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.textbox .sendbtn:hover {
+  background-color: grey;
+}
+/*Use to align loading to center*/
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*Create group chat modal CSS*/
+.modal2 {
+  position: absolute;
+  border: 2px solid black;
+  width: 30rem;
+  min-height: 15rem;
+  border-radius: 1rem;
+  top: 20%;
+  /* left: 20%; */
+  background-color: aqua;
+}
+.modalbody {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.8rem;
+  flex-direction: column;
+}
+.vis {
+  display: block;
+}
+.nonvis {
+  display: none;
+}
+
+.inputs {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+.inputs input {
+  margin: 1rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 2px solid black;
+  padding: 0.3rem;
+}
+.inputs button {
+  width: 6rem;
+  height: 2.5rem;
+  padding: 0.2rem;
+  background-color: antiquewhite;
+  border-radius: 0.5rem;
+  border: 2px solid black;
+}
+.closeicon {
+  position: absolute;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  width: 3rem;
+  padding: 0.3rem;
+  cursor: pointer;
+}
+.closeicon:hover {
+  color: rgb(251, 255, 0);
+}
+
+/*Card inside search result of cretae group*/
+.grpwrap {
+  border: 2px solid black;
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.2rem;
+  cursor: pointer;
+}
+.grpwrap h5 {
+  padding: 0.2rem;
+}
+.grpwrap img {
+  border-radius: 1rem;
+}
+
+.grpwrap:hover {
+  background-color: blueviolet;
+}
+
+/* css of section showing selected names */
+.selected {
+  border: 2px solid black;
+
+  border-radius: 0.2rem;
+  width: 10rem;
+}
+.users2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.users2 h6 {
+  background-color: palegoldenrod;
+  padding: 0.1rem;
+  width: 3rem;
+  height: 1rem;
+  font-size: 0.8rem;
+  margin: 0.1rem;
+  border-radius: 0.2rem;
+}
+.closeicon2 {
+  padding: 0.1rem;
+  background-color: blueviolet;
+  height: 1rem;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.2rem;
+  width: 1.2rem;
+}
+
+/*CSS for group modal*/
+.newnamewrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+/*CSS for exit button*/
+.exit {
+  padding: 0.5rem;
+  background-color: red;
+  color: #ffff;
+  border-radius: 0.6rem;
+  border: 2px solid #fff;
+}
+
+/* CSS for selected chat */
+
+.selected {
+  background-color: aqua;
+}
