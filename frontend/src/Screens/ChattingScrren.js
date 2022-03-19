@@ -246,7 +246,7 @@ const ChattingScrren = () => {
       }
     });
   });
-  return chatloading || messageloading || chatisloading ? (
+  return chatloading || chatisloading ? (
     <Search_loading />
   ) : (
     <>
@@ -438,9 +438,9 @@ const ChattingScrren = () => {
                       })
                     )}
                   </div>
-
+                  {isTyping ? <div>loading,typing</div> : null}
                   <div className="textbox">
-                    {isTyping ? <div>loading,typing</div> : null}
+                    
                     <input
                       type="text"
                       name="message"

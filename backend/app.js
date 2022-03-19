@@ -17,7 +17,7 @@ const userRouter = require("./routers/userroutes");
 const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 const chatrouter = require("./routers/chatrouters");
 const messagerouter = require("./routers/messagerouters");
-const path=require("path");
+const path = require("path");
 dotenv.config();
 
 const port = process.env.PORT || 5000;
@@ -34,17 +34,16 @@ app.use("/api/chat", chatrouter);
 app.use("/api/message", messagerouter);
 
 //deploying part
-const __dirname1=path.resolve();
-if(process.env.NODE_ENV==="production"){
-  app.use(express.static(path.join(__dirname1,"/frontend/build")));
-  app.get('*',(req,res)=>{
-    res.sendFile(path.resolve(__dirname1,"frontend","build","index.html"))
-  })
-}
-else{
-  app.get("/",(req,res)=>{
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
     res.send("API IS RUNNING");
-  })
+  });
 }
 
 //If APIs does'nt work or any error these lines will be executed
@@ -95,7 +94,7 @@ io.on("connection", (socket) => {
       }
       console.log("EMITTING");
       //Else if it's not user who sent message,send it
-      socket.emit("message received", newMessageReceived);
+      socket.in(user._id).emit("message received", newMessageReceived);
     });
   });
 
