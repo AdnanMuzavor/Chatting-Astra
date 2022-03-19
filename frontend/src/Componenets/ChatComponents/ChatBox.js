@@ -161,6 +161,8 @@ const ChatBox = () => {
   //socket.io state
   const [socketconnected, setsocketconnected] = useState(false);
 
+  
+
   //Calling fetch chat usimg useeffect
   useEffect(() => {
     //Fetching messages of chat as soon as chat loads
@@ -200,7 +202,7 @@ const ChatBox = () => {
 
   //Use effect for socket.io connection
   useEffect(() => {
-    alert("use effect for socket io");
+
     //socket io code, HELPS MIN CONNECTING WITH SOCKET IO IN BACKEND
     //Connecting socketio with backend
     socket = io(ENDPOINT);
@@ -208,7 +210,7 @@ const ChatBox = () => {
     socket.emit("setup", UserInfo);
     socket.on("connected", () => {
       setsocketconnected(true);
-      alert("connected");
+   
     });
     //Making user join room(i.e chat)
     socket.emit("join chat", CurrChat._id);
@@ -254,9 +256,9 @@ const ChatBox = () => {
     });
   });
 
-  return chatloading ? (
+  return CurrChat!==null &&chatloading ? (
     <Search_loading />
-  ) : CurrChat.chatName ? (
+  ) :CurrChat===null?<h1>Select a chat</h1>: CurrChat.chatName ? (
     <>
       {/* Modal for cretaing group chat */}
       <div className="row center">
