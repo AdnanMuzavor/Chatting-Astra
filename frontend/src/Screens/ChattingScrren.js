@@ -215,7 +215,7 @@ const ChattingScrren = () => {
     //Creating room for user
     socket.emit("setup", UserInfo);
     socket.on("connected", () => {
-        alert("connected")
+      alert("connected");
       setsocketconnected(true);
     });
     //Making user join room(i.e chat)
@@ -246,9 +246,220 @@ const ChattingScrren = () => {
       }
     });
   });
-  return (
+  return chatloading || messageloading || chatisloading ? (
+    <Search_loading />
+  ) : (
     <>
-      <h1>Hii you can chat now</h1>
+      {/* Modal for cretaing group chat */}
+      <div className="row center">
+        <div
+          className={`modal2 col-md-3 col-lg-3 col-10 ${
+            modal ? "vis" : "nonvis"
+          }`}
+        >
+          <div className="closeicon" onClick={(e) => setmodal(!modal)}>
+            X
+          </div>
+          <div className="modalbody">
+            {/*Displaying chat name based of chat type */}
+            <h1>
+              {CurrChat.isGroupChat
+                ? CurrChat.chatName
+                : CurrChat.users[1]._id != UserInfo._id
+                ? CurrChat.users[1].name
+                : CurrChat.users[0].name}
+            </h1>
+            {/* Searching users directly with help of API */}
+
+            {/* List of users selected */}
+            <div className="selected d-flex justify-content-center">
+              <div className="row">
+                {/*If group chat displaying users */}
+                {CurrChat.isGroupChat
+                  ? CurrChat.users.map((e) => {
+                      return e._id !== UserInfo._id ? (
+                        <>
+                          <div
+                            className="users2 col-md-6 col-lg-6 col-6"
+                            key={e._id}
+                          >
+                            <h6>{e.name.toUpperCase()}</h6>
+                            <h1
+                              className="closeicon2"
+                              onClick={(et) => {
+                                RemoveUser(e._id);
+                              }}
+                            >
+                              X
+                            </h1>
+                          </div>
+                        </>
+                      ) : null;
+                    })
+                  : null}
+              </div>
+            </div>
+
+            {CurrChat.isGroupChat ? (
+              <>
+                <div className="inputs">
+                  {/*Update group chat section */}
+                  {/* Taking new group chat  name */}
+                  <div className="newnamewrap">
+                    <input
+                      type="text"
+                      placeholder="Enter group  name"
+                      className="groupname"
+                      value={newgrpname}
+                      onChange={(e) => setnewgrpname(e.target.value)}
+                    />
+                    <button onClick={UpdateName}>update</button>
+                  </div>
+                  {/* Searching users directly with help of API */}
+                  <input
+                    type="text"
+                    placeholder="Enter Users"
+                    className="users"
+                    onChange={(e) => {
+                      setsearch(e.target.value);
+                      SearchHandler(e, e.target.value);
+                    }}
+                  />
+                </div>
+                {search !== "" ? (
+                  <div className="container">
+                    <h5 className="text-center mb-4">Search Results</h5>
+                    {searchresult.length >= 1 ? (
+                      <div className="row d-flex justify-content-center">
+                        {searchloading ? (
+                          <Search_loading />
+                        ) : (
+                          searchresult.map((e) => {
+                            return e._id !== UserInfo._id &&
+                              !CurrChat.users.find(
+                                (ele) => ele._id === e._id
+                              ) ? (
+                              <>
+                                <SearchResultMiniCard
+                                  key={e._id}
+                                  name={e.name}
+                                  pic={e.pic}
+                                  Add={() => AddnewUser(e._id)}
+                                />
+                              </>
+                            ) : null;
+                          })
+                        )}
+                      </div>
+                    ) : null}
+                  </div>
+                ) : null}
+
+                <button
+                  className="exit "
+                  onClick={() => RemoveUser(UserInfo._id)}
+                >
+                  Exit Group
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="name">
+                  <div className="modal-body mx-auto">
+                    <img
+                      src={
+                        CurrChat.users[1]._id != UserInfo._id
+                          ? CurrChat.users[1].pic
+                          : CurrChat.users[0].pic
+                      }
+                      className="rounded-circle profile"
+                      alt="Avatar"
+                    />
+                    <h4 className="text-center mt-2 mb-2">
+                      {" "}
+                      {CurrChat.users[1]._id != UserInfo._id
+                        ? CurrChat.users[1].email
+                        : CurrChat.users[0].email}
+                    </h4>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* The main chat box */}
+      <div className={`container chatmainbox ${chatloading ? "center" : ""}`}>
+        {chatloading && chatisloading ? (
+          <Search_loading />
+        ) : (
+          <div className="row chatwrap">
+            {CurrChat.chatName ? (
+              <>
+                <div className="chattext">
+                  <h2>
+                    {!CurrChat.isGroupChat
+                      ? CurrChat.users[1]._id != UserInfo._id
+                        ? CurrChat.users[1].name
+                        : CurrChat.users[0].name
+                      : CurrChat.chatName}
+                  </h2>
+                  <div className="iconwrap" onClick={() => setmodal(!modal)}>
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                  </div>
+                </div>
+                <div className="col-md-12 col-lg-12 col-12 ">
+                  <div className="messagebox" id="message">
+                    {chatisloading && messageloading ? (
+                      <Search_loading />
+                    ) : (
+                      Messages.map((e, i) => {
+                        return e.sender._id === UserInfo._id ? (
+                          <>
+                            <div className="right mt-1" key={Math.random()}>
+                              <p>{e.content}</p>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="left mt-1" key={Math.random()}>
+                              <img
+                                src={e.sender.pic}
+                                className="rounded-circle avatar"
+                                style={{ width: "150px" }}
+                                alt="Avatar"
+                              />
+
+                              <p className="messagecontent">{e.content}</p>
+                            </div>
+                          </>
+                        );
+                      })
+                    )}
+                  </div>
+
+                  <div className="textbox">
+                    {isTyping ? <div>loading,typing</div> : null}
+                    <input
+                      type="text"
+                      name="message"
+                      value={content}
+                      onChange={typingHandler}
+                      placeholder="Enter Your Message"
+                    ></input>
+                    <button className="sendbtn" onClick={SendMessageHandler}>
+                      {sendmsgload ? "Sending" : "send"}
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <h1>Select chat from group chats</h1>
+            )}
+          </div>
+        )}
+      </div>
     </>
   );
 };
