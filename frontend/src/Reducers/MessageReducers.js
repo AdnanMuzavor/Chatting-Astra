@@ -4,6 +4,7 @@ import {
   GET_ALL_MESSAGES_FAIL,
   GET_ALL_MESSAGES_REQUEST,
   GET_ALL_MESSAGES_SUCCESS,
+  GET_ALL_MESSAGES_WHILE_EXISTING,
   SEND_MESSAGE_FAIL,
   SEND_MESSAGE_REQUEST,
   SEND_MESSAGE_SUCCESS,
@@ -29,6 +30,8 @@ export const MessageReducer = (
       return { ...state, chatisloading: true };
     case GET_ALL_MESSAGES_SUCCESS:
       return { ...state, chatisloading: false, Messages: action.payload };
+    case GET_ALL_MESSAGES_WHILE_EXISTING:
+      return { ...state, Messages: action.payload };
     case APPPEND_MESSAGE:
       if (state.Messages.find((e) => e._id === action.payload._id)) {
         console.log("Messsage added");

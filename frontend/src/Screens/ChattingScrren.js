@@ -169,7 +169,9 @@ const ChattingScrren = () => {
     setcontent("");
     //Fetching messages of chat as soon as chat loads
     setTimeout(() => {
-     // dispatch(GetMessages(UserInfo, CurrChat._id, socket));
+      dispatch(
+        GetMessages(UserInfo, CurrChat._id, Messages.length >= 1 ? true : false)
+      );
     }, 2000);
     setTimeout(() => {
       var box = document.getElementById("message");
@@ -244,8 +246,8 @@ const ChattingScrren = () => {
         console.log("Disptc hing action");
         dispatch(AppendToMessage(newMessageReceived));
         setTimeout(() => {
-            var box = document.getElementById("message");
-            box.scrollTop = box.scrollHeight;
+          var box = document.getElementById("message");
+          box.scrollTop = box.scrollHeight;
         }, 2000);
       }
     });
@@ -444,7 +446,6 @@ const ChattingScrren = () => {
                   </div>
                   {isTyping ? <div>loading,typing</div> : null}
                   <div className="textbox">
-                    
                     <input
                       type="text"
                       name="message"
