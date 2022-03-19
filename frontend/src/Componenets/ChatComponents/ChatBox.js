@@ -165,6 +165,7 @@ const ChatBox = () => {
 
   //Calling fetch chat usimg useeffect
   useEffect(() => {
+    if(CurrChat){
     //Fetching messages of chat as soon as chat loads
     dispatch(GetMessages(UserInfo, CurrChat._id));
     //To scroll to chat botto  of current chat
@@ -173,7 +174,8 @@ const ChatBox = () => {
       // TakeChatBottom();
       setscrollload(false);
     }, 2000);
-  }, [CurrChat]);
+  }
+  }, []);
 
   //Handling typing
   const [typing, setTyping] = useState(false);
