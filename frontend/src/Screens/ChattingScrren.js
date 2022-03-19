@@ -176,7 +176,7 @@ const ChattingScrren = () => {
     setTimeout(() => {
       var box = document.getElementById("message");
       box.scrollTop = box.scrollHeight;
-    }, 3000);
+    }, 4000);
   };
   //____________________________________________________________________________
 
@@ -211,6 +211,9 @@ const ChattingScrren = () => {
   //Useeffect for connecting with socket.io
 
   useEffect(() => {
+      if(Messages.length===0 ||Messages.length<=2){
+          dispatch(GetMessages(UserInfo,CurrChat._id,false))
+      }
     //socket io code, HELPS MIN CONNECTING WITH SOCKET IO IN BACKEND
     //Connecting socketio with backend
     socket = io(ENDPOINT);
