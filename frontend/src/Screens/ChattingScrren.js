@@ -169,7 +169,7 @@ const ChattingScrren = () => {
     setcontent("");
     //Fetching messages of chat as soon as chat loads
     setTimeout(() => {
-      dispatch(GetMessages(UserInfo, CurrChat._id, socket));
+     // dispatch(GetMessages(UserInfo, CurrChat._id, socket));
     }, 2000);
     setTimeout(() => {
       var box = document.getElementById("message");
@@ -243,6 +243,10 @@ const ChattingScrren = () => {
         //  alert("dispatching")
         console.log("Disptc hing action");
         dispatch(AppendToMessage(newMessageReceived));
+        setTimeout(() => {
+            var box = document.getElementById("message");
+            box.scrollTop = box.scrollHeight;
+        }, 2000);
       }
     });
   });
