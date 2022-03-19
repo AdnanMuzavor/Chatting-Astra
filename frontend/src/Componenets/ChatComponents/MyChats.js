@@ -10,7 +10,11 @@ import Search_loading from "../Loadingcomponents/search_results_loading";
 import ChatListCard from "../SmallComponents/ChatListCard";
 import SearchCard from "../SmallComponents/SearchResultCard";
 import SearchResultMiniCard from "../SmallComponents/SearchResultMiniCard";
+import {useHistory} from "react-router-dom";
 const MyChats = () => {
+  //Getting useHistory
+  const history=useHistory();
+
   //To use toast
   const toast = useToast();
 
@@ -99,6 +103,8 @@ const MyChats = () => {
     dispatch(setCurrChatVal(userid, UserInfo, isgroup, chatid));
     //get messages of that chat
     dispatch(GetMessages(UserInfo, chatid));
+    //Pushing to chatting page
+    history.push("/chatting")
   };
 
   //Search handling functions

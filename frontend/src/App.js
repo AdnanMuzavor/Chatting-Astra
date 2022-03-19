@@ -5,12 +5,14 @@ import { Button, ButtonGroup } from "@chakra-ui/react";
 import { Route } from "react-router-dom";
 import Homepage from "./Screens/Home";
 import Chatpage from "./Screens/ChatPage";
+import ChattingScrren from "./Screens/ChattingScrren";
 
 function App() {
   return (
     <div className="App">
       <Route path="/" component={Homepage} exact />
       <Route exact path="/chat" component={Chatpage} />
+      <Route exact path="/chatting" component={ChattingScrren}/>
     </div>
   );
 }
