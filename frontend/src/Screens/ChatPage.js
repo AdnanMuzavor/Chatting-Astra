@@ -39,7 +39,7 @@ const Chatpage = () => {
           </div>
          
           <div className="col-md-8 col-lg-8 col-12">
-            <ChatBox />
+            {/* <ChatBox /> */}
           </div>
         </div>
       </div>
