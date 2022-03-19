@@ -25,25 +25,20 @@ const Chatpage = () => {
   }, []);
   return (
     <>
-    <div className="">
+      <div className="">
         <div className="row">
-     
           <div className="col-md-12 col-lg-12 col-12">
             <SideDrawer />
           </div>
         </div>
         <div className="row">
-         
           <div className="col-md-4 col-lg-4 col-12">
             <MyChats />
           </div>
-         
-          <div className="col-md-8 col-lg-8 col-12">
-            {/* <ChatBox /> */}
-          </div>
+
+          <div className="col-md-8 col-lg-8 col-12">{/* <ChatBox /> */}</div>
         </div>
       </div>
-    
     </>
   );
 };

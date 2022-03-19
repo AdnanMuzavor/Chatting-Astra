@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrChatVal } from "../../Actions/Current_Chat";
+import { GetMessages } from "../../Actions/Get_Messages";
 import Search_loading from "../Loadingcomponents/search_results_loading";
 import ChatListCard from "../SmallComponents/ChatListCard";
 import SearchCard from "../SmallComponents/SearchResultCard";
@@ -94,9 +95,10 @@ const MyChats = () => {
   //Calling selected Chat function
   const SelectChat = (userid, isgroup, chatid) => {
     setselectedchat(chatid);
-    // alert(isgroup)
-    // alert(userid);
+    //Set selected chat
     dispatch(setCurrChatVal(userid, UserInfo, isgroup, chatid));
+    //get messages of that chat
+    dispatch(GetMessages(UserInfo, chatid));
   };
 
   //Search handling functions
@@ -346,16 +348,18 @@ const MyChats = () => {
                         : e.users[0].name
                       : e.chatName
                   }
-                  email={ e.users.length === 2
-                    ? e.users[1]._id != UserInfo._id
-                      ? e.users[1].email
-                      : e.users[0].email
-                    : "Group Chat"}
+                  email={
+                    e.users.length === 2
+                      ? e.users[1]._id != UserInfo._id
+                        ? e.users[1].email
+                        : e.users[0].email
+                      : "Group Chat"
+                  }
                   pic={
                     e.users.length === 2
                       ? e.users[1]._id != UserInfo._id
-                      ? e.users[1].pic
-                      : e.users[0].pic
+                        ? e.users[1].pic
+                        : e.users[0].pic
                       : "https://tse1.mm.bing.net/th?id=OIP.hD_nnTOg6EuVo4Wyur927wHaE8&pid=Api&P=0&w=246&h=164"
                   }
                   // SelectChatFn={() => SelectChat(e.users[1]._id)}
