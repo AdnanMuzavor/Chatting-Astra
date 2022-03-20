@@ -220,7 +220,7 @@ const ChattingScrren = () => {
     //Creating room for user
     socket.emit("setup", UserInfo);
     socket.on("connected", () => {
-      alert("connected");
+      //alert("connected");
       setsocketconnected(true);
     });
     //Making user join room(i.e chat)
@@ -254,7 +254,7 @@ const ChattingScrren = () => {
         }, 2000);
       }
     });
-  });
+  },[socket]);
   return chatloading || chatisloading ? (
     <Search_loading />
   ) : (
