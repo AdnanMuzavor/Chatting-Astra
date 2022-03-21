@@ -19,7 +19,8 @@ import typinganimation from "../Animations/typing.json";
 import {NotifyUser} from "../Actions/Notify_user";
 //SOCKET io connection stuff
 //
-const ENDPOINT = "http://localhost:5000";
+//const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://mern-chat-a-tive.herokuapp.com/";
 
 var socket, selectedChatCompare;
 
