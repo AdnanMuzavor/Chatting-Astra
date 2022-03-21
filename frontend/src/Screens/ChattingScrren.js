@@ -14,9 +14,13 @@ import SearchResultMiniCard from "../Componenets/SmallComponents/SearchResultMin
 import io from "socket.io-client";
 import { AddnewUserToGrp } from "../Actions/Add_New_User";
 import { LeaveGroup } from "../Actions/Current_Chat";
-
+import Lottie from "react-lottie";
+import typinganimation from "../Animations/typing.json";
+import {NotifyUser} from "../Actions/Notify_user";
 //SOCKET io connection stuff
-const ENDPOINT = "https://mern-chat-a-tive.herokuapp.com/";
+//
+const ENDPOINT = "http://localhost:5000";
+
 var socket, selectedChatCompare;
 
 const ChattingScrren = () => {
@@ -211,9 +215,9 @@ const ChattingScrren = () => {
   //Useeffect for connecting with socket.io
 
   useEffect(() => {
-      if(Messages.length===0 ||Messages.length<=2){
-          dispatch(GetMessages(UserInfo,CurrChat._id,false))
-      }
+    if (Messages.length === 0 || Messages.length <= 2) {
+      dispatch(GetMessages(UserInfo, CurrChat._id, false));
+    }
     //socket io code, HELPS MIN CONNECTING WITH SOCKET IO IN BACKEND
     //Connecting socketio with backend
     socket = io(ENDPOINT);
@@ -244,6 +248,7 @@ const ChattingScrren = () => {
         //Give notification
         console.log("no");
         console.log("give notification");
+        dispatch(NotifyUser(newMessageReceived))
       } else {
         //  alert("dispatching")
         console.log("Disptc hing action");
@@ -254,7 +259,18 @@ const ChattingScrren = () => {
         }, 2000);
       }
     });
-  },[socket]);
+  }, [socket]);
+
+  //Animation details
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: typinganimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return chatloading || chatisloading ? (
     <Search_loading />
   ) : (
@@ -414,6 +430,18 @@ const ChattingScrren = () => {
                         : CurrChat.users[0].name
                       : CurrChat.chatName}
                   </h2>
+                  {isTyping ? (
+                    <>
+                      <h2 className="typing">
+                        {CurrChat.isGroupChat ? UserInfo.name : ""}
+                        <Lottie
+                          options={defaultOptions}
+                          width={70}
+                          // style={{marginBottom:15,marginLeft:0}}
+                        />
+                      </h2>
+                    </>
+                  ) : null}
                   <div className="iconwrap" onClick={() => setmodal(!modal)}>
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </div>
@@ -447,7 +475,7 @@ const ChattingScrren = () => {
                       })
                     )}
                   </div>
-                  {isTyping ? <div>loading,typing</div> : null}
+
                   <div className="textbox">
                     <input
                       type="text"

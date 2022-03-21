@@ -16,12 +16,12 @@ import React, { useEffect, useState } from "react";
 import ProfileModal from "../SmallComponents/ProfileModal";
 // import {ChatState} from "../../Context/ContextProvider";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Userlogout from "../../Actions/User_logout";
 import axios from "axios";
 import SearchCard from "../SmallComponents/SearchResultCard";
 import Search_loading from "../Loadingcomponents/search_results_loading";
-import {setCurrChatVal} from "../../Actions/Current_Chat";
+import { setCurrChatVal } from "../../Actions/Current_Chat";
 const SideDrawer = () => {
   //Uisng toast
   const toast = useToast();
@@ -31,7 +31,7 @@ const SideDrawer = () => {
   const dispatch = useDispatch();
   //Getting user data
   const UserDetails = useSelector((state) => state.UserDetails);
-  const { loading: userloading, error, UserInfo } = UserDetails;
+  const { loading: userloading, error, UserInfo,Notifications } = UserDetails;
 
   //For modal viewing
   const [isopen, setisopen] = useState(false);
@@ -118,7 +118,7 @@ const SideDrawer = () => {
       // console.log(data);
       // setselectedchat(data);
       // setLoadingchat(false);
-      dispatch(setCurrChatVal(userid,UserInfo))
+      dispatch(setCurrChatVal(userid, UserInfo));
     } catch (e) {
       console.log(e);
       toast({
@@ -140,6 +140,10 @@ const SideDrawer = () => {
           <a className="navbar-brand" href="#">
             Navbar
           </a>
+          <Link className="navbar-brand" to="/chat">
+            Chats
+          </Link>
+          <i class="fas fa-bell fa-2x navbar-brand">{Notifications?Notifications.length:0}</i>
           <button
             className="navbar-toggler"
             type="button"

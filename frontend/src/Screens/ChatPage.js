@@ -28,7 +28,7 @@ const Chatpage = () => {
       <div className="">
         <div className="row">
           <div className="col-md-12 col-lg-12 col-12">
-            <SideDrawer />
+            {/* <SideDrawer /> */}
           </div>
         </div>
         <div className="row">

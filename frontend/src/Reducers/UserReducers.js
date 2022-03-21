@@ -1,16 +1,18 @@
 import {
+  NOTIFY_USER,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT_FAIL,
   USER_LOGOUT_SUCCESS,
+  USER_OPENED_NOTIFIED_CHAT,
   USER_SIGNUP_FAIL,
   USER_SIGNUP_REQUEST,
   USER_SIGNUP_SUCCESS,
 } from "../Constants/UserConstants";
 
 export const UserReducers = (
-  state = { loading: false, error: "", UserInfo: {} },
+  state = { loading: false, error: "", UserInfo: {}, Notifications: [] },
   action
 ) => {
   switch (action.type) {
@@ -29,9 +31,31 @@ export const UserReducers = (
     case USER_LOGIN_REQUEST:
       return { ...state, loading: true };
     case USER_LOGOUT_SUCCESS:
-      return { loading: false,error:"", UserInfo:action.payload };
+      return { loading: false, error: "", UserInfo: action.payload };
     case USER_LOGOUT_FAIL:
       return { ...state, loading: false };
+    case NOTIFY_USER:
+      if (
+        state.Notifications &&
+        !state.Notifications.find((e) => e._id === action.payload._id)
+      ) {
+        return {
+          ...state,
+          Notifications: [...state.Notifications, action.payload],
+        };
+      } else {
+        return {
+          ...state,
+          Notifications: [action.payload],
+        };
+      }
+    case USER_OPENED_NOTIFIED_CHAT:
+      if (state.Notifications) {
+        state.Notifications.filter((e) => e._id !== action.payload);
+        return { ...state };
+      } else {
+        return { ...state };
+      }
     default:
       return state;
   }
