@@ -38,13 +38,13 @@ export const UserReducers = (
       console.log("appending to notifications");
       if (!state.Notifications) {
         console.log("no notifications");
-        Notifications.push(action.payload);
-        return { ...state, Notifications };
+        state.Notifications.push(action.payload);
+        return { ...state };
       }
       console.log("notification existed");
+      state.Notifications = [...state.Notifications, action.payload];
       return {
         ...state,
-        Notifications: [action.payload, ...state.Notifications],
       };
 
     case USER_OPENED_NOTIFIED_CHAT:
