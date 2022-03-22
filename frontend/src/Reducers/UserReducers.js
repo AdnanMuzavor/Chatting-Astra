@@ -35,7 +35,13 @@ export const UserReducers = (
     case USER_LOGOUT_FAIL:
       return { ...state, loading: false };
     case NOTIFY_USER:
-      console.log("appending to notifications")
+      console.log("appending to notifications");
+      if (!state.Notifications) {
+        console.log("no notifications");
+        Notifications.push(action.payload);
+        return { ...state, Notifications };
+      }
+      console.log("notification existed");
       return {
         ...state,
         Notifications: [action.payload, ...state.Notifications],
