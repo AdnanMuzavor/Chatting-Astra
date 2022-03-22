@@ -16,7 +16,7 @@ import { AddnewUserToGrp } from "../Actions/Add_New_User";
 import { LeaveGroup } from "../Actions/Current_Chat";
 import Lottie from "react-lottie";
 import typinganimation from "../Animations/typing.json";
-import {NotifyUser} from "../Actions/Notify_user";
+import { NotifyUser } from "../Actions/Notify_user";
 //SOCKET io connection stuff
 //
 //const ENDPOINT = "http://localhost:5000";
@@ -33,7 +33,12 @@ const ChattingScrren = () => {
 
   //Getting state of user
   const UserDetails = useSelector((state) => state.UserDetails);
-  const { loading: userloading, UserInfo, error: usererror } = UserDetails;
+  const {
+    loading: userloading,
+    UserInfo,
+    error: usererror,
+    Notifications,
+  } = UserDetails;
 
   //Getting state of chat
   const ChatDetails = useSelector((state) => state.ChatDetails);
@@ -244,12 +249,15 @@ const ChattingScrren = () => {
       //       message received
       if (
         !selectedChatCompare ||
-        selectedChatCompare._id !== newMessageReceived.chat._id
+        selectedChatCompare._id !== newMessageReceived.chat._id ||
+        newMessageReceived.chat._id !== CurrChat._id
       ) {
         //Give notification
         console.log("no");
         console.log("give notification");
-        dispatch(NotifyUser(newMessageReceived))
+        if (!Notifications.includes(newMessageReceived)) {
+          dispatch(NotifyUser(newMessageReceived));
+        }
       } else {
         //  alert("dispatching")
         console.log("Disptc hing action");

@@ -31,7 +31,7 @@ const SideDrawer = () => {
   const dispatch = useDispatch();
   //Getting user data
   const UserDetails = useSelector((state) => state.UserDetails);
-  const { loading: userloading, error, UserInfo,Notifications } = UserDetails;
+  const { loading: userloading, error, UserInfo, Notifications } = UserDetails;
 
   //For modal viewing
   const [isopen, setisopen] = useState(false);
@@ -143,7 +143,9 @@ const SideDrawer = () => {
           <Link className="navbar-brand" to="/chat">
             Chats
           </Link>
-          <i class="fas fa-bell fa-2x navbar-brand">{Notifications?Notifications.length:0}</i>
+          <i class="fas fa-bell fa-2x navbar-brand">
+            {Notifications ? Notifications.length : 0}
+          </i>
           <button
             className="navbar-toggler"
             type="button"
@@ -200,7 +202,53 @@ const SideDrawer = () => {
                   </li>
                 </ul>
               </li>
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link "
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-bell fa-2x navbar-brand">
+                    {Notifications ? Notifications.length : 0}
+                  </i>
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {!Notifications ? (
+                    <>
+                      {" "}
+                      <li>
+                        <a className="dropdown-item" href="#">
+                          No Messages
+                        </a>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      {Notifications.map((e) => {
+                        return (
+                          <>
+                            <li key={e._id}>
+                              {e.chat.isGroupChat
+                                ? `New message from ${e.chat.chatName}`
+                                : `New Message from ${
+                                    e.chat.users[0]._id === UserInfo._id
+                                      ? e.chat.users[1].name
+                                      : e.chat.users[0].name
+                                  }`}
+                              <Link></Link>
+                            </li>
+                          </>
+                        );
+                      })}
+                    </>
+                  )}
+                </ul>
+              </li>
             </ul>
+
             <form className="d-flex">
               <input
                 className="form-control me-2"
