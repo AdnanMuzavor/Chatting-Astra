@@ -89,9 +89,9 @@ io.on("connection", (socket) => {
     //Making message received to all users except current user
     chat.users.forEach((user) => {
       //It should not be sent to user who is sending message
-     // if (user._id === newMessageReceived.sender._id) {
-      //  return;
-     // }
+    //  if (user._id === newMessageReceived.sender._id) {
+    //    return;
+    //  }
       console.log("EMITTING");
       //Else if it's not user who sent message,send it
       socket.in(user._id).emit("message received", newMessageReceived);
