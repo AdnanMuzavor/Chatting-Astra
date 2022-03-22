@@ -35,11 +35,16 @@ export const UserReducers = (
     case USER_LOGOUT_FAIL:
       return { ...state, loading: false };
     case NOTIFY_USER:
-      return {
-        ...state,
-        Notifications: [...state.Notifications, action.payload],
-      };
-
+      if (!state.Notifications) {
+        console.log("didnt existed")
+        return { ...state, Notifications: [action.payload] };
+      } else {
+        console.log("existed")
+        return {
+          ...state,
+          Notifications: [...state.Notifications, action.payload],
+        };
+      }
     case USER_OPENED_NOTIFIED_CHAT:
       if (state.Notifications) {
         state.Notifications.filter((e) => e._id !== action.payload);
