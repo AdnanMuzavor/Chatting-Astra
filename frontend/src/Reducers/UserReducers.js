@@ -35,20 +35,12 @@ export const UserReducers = (
     case USER_LOGOUT_FAIL:
       return { ...state, loading: false };
     case NOTIFY_USER:
-      if (
-        state.Notifications &&
-        !state.Notifications.find((e) => e._id === action.payload._id)
-      ) {
-        return {
-          ...state,
-          Notifications: [...state.Notifications, action.payload],
-        };
-      } else {
-        return {
-          ...state,
-          Notifications: [action.payload],
-        };
-      }
+      console.log("appending to notifications")
+      return {
+        ...state,
+        Notifications: [action.payload, ...state.Notifications],
+      };
+
     case USER_OPENED_NOTIFIED_CHAT:
       if (state.Notifications) {
         state.Notifications.filter((e) => e._id !== action.payload);

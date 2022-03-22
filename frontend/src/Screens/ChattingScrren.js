@@ -255,9 +255,14 @@ const ChattingScrren = () => {
         //Give notification
         console.log("no");
         console.log("give notification");
-       
+        if (
+          Notifications &&
+          !Notifications.find((e) => e._id === newMessageReceived._id)
+        ) {
           dispatch(NotifyUser(newMessageReceived));
-        
+        } else if (!Notifications || Notifications.length === 0) {
+          dispatch(NotifyUser(newMessageReceived));
+        }
       } else {
         //  alert("dispatching")
         console.log("Disptc hing action");
