@@ -517,7 +517,7 @@ const ChattingScrren = () => {
                       {sendmsgload ? "Sending" : "send"}
                     </button>
                     <button className="sendbtn ms-1" onClick={TakeToChatBottom}>
-                      Go to bottom
+                      bottom
                     </button>
                   </div>
                 </div>
