@@ -77,6 +77,9 @@ const ChattingScrren = () => {
 
   //socket.io state
   const [socketconnected, setsocketconnected] = useState(false);
+
+  //To scroll chat to bottom
+  const [scrolltobottom, setscrolltobottom] = useState(false);
   //____________________________________________________________________________
 
   //All functions (GROUP RELATED FUNCTIONS)
@@ -227,14 +230,18 @@ const ChattingScrren = () => {
     //socket io code, HELPS MIN CONNECTING WITH SOCKET IO IN BACKEND
     //Connecting socketio with backend
     socket = io(ENDPOINT);
+
     //Creating room for user
     socket.emit("setup", UserInfo);
+
     socket.on("connected", () => {
       //alert("connected");
       setsocketconnected(true);
     });
+
     //Making user join room(i.e chat)
     socket.emit("join chat", CurrChat._id);
+
     //For backup of current message
     selectedChatCompare = CurrChat;
     socket.on("typing", () => setIsTyping(true));
@@ -285,6 +292,11 @@ const ChattingScrren = () => {
     },
   };
 
+  //Function to take user to bottom of chat
+  const TakeToChatBottom = () => {
+    var box = document.getElementById("message");
+    box.scrollTop = box.scrollHeight;
+  };
   return chatloading || chatisloading ? (
     <Search_loading />
   ) : (
@@ -498,8 +510,14 @@ const ChattingScrren = () => {
                       onChange={typingHandler}
                       placeholder="Enter Your Message"
                     ></input>
-                    <button className="sendbtn" onClick={SendMessageHandler}>
+                    <button
+                      className="sendbtn ms-1"
+                      onClick={SendMessageHandler}
+                    >
                       {sendmsgload ? "Sending" : "send"}
+                    </button>
+                    <button className="sendbtn ms-1" onClick={TakeToChatBottom}>
+                      Go to bottom
                     </button>
                   </div>
                 </div>

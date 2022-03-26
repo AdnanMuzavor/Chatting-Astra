@@ -9,6 +9,7 @@ import ChatBox from "../Componenets/ChatComponents/ChatBox";
 import { Box } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import img from "../Images/homechatimg.jpg";
 const Chatpage = () => {
   //Getting dispatch
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const Chatpage = () => {
       <div className="">
         <div className="row">
           <div className="col-md-12 col-lg-12 col-12">
-            {/* <SideDrawer /> */}
+            <SideDrawer />
           </div>
         </div>
         <div className="row">
@@ -36,7 +37,13 @@ const Chatpage = () => {
             <MyChats />
           </div>
 
-          <div className="col-md-8 col-lg-8 col-12">{/* <ChatBox /> */}</div>
+          <div className="col-md-8 col-lg-8 col-12 homeimgcont ">
+            {/* <ChatBox /> */}
+            <img src={img} alt="Home image" className="img-fluid homeimg" />
+            <h6 className="text-center hometext">
+              Chat with any person you want
+            </h6>
+          </div>
         </div>
       </div>
     </>

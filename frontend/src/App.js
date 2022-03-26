@@ -6,15 +6,16 @@ import { Route } from "react-router-dom";
 import Homepage from "./Screens/Home";
 import Chatpage from "./Screens/ChatPage";
 import ChattingScrren from "./Screens/ChattingScrren";
-import SideDrawer from "./Componenets/ChatComponents/SideDrawer";
+
 
 function App() {
   return (
     <div className="App">
-      <SideDrawer/>
+      {/* {UserInfo.name ? <SideDrawer /> : null} */}
+
       <Route path="/" component={Homepage} exact />
       <Route exact path="/chat" component={Chatpage} />
-      <Route exact path="/chatting" component={ChattingScrren}/>
+      <Route exact path="/chatting" component={ChattingScrren} />
     </div>
   );
 }

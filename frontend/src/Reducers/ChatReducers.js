@@ -1,4 +1,9 @@
-import {USER_LEAVE_GROUP, USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS, USER_LOGOUT_SUCCESS_CHAT} from "../Constants/UserConstants";
+import {
+  USER_LEAVE_GROUP,
+  USER_LOGIN_SUCCESS,
+  USER_LOGOUT_SUCCESS,
+  USER_LOGOUT_SUCCESS_CHAT,
+} from "../Constants/UserConstants";
 
 const {
   SET_CURRENT_CHAT_REQUEST,
@@ -15,6 +20,7 @@ const {
   REMOVE_USER_GROUP_CHAT_REQUEST,
   REMOVE_USER_GROUP_CHAT_SUCCESS,
   REMOVE_USER_GROUP_CHAT_FAIL,
+  RE_INITIALISE_CHAT,
 } = require("../Constants/ChatConstants");
 
 export const ChatReducers = (
@@ -33,6 +39,8 @@ export const ChatReducers = (
         CurrChat: {},
         error: action.payload,
       };
+    case RE_INITIALISE_CHAT:
+      return { ...state, CurrChat: {} };
     case RENAME_GROUP_CHAT_REQUEST:
       return { ...state, chatloading: true };
     case RENAME_GROUP_CHAT_SUCCESS:
@@ -67,11 +75,11 @@ export const ChatReducers = (
     case REMOVE_USER_GROUP_CHAT_FAIL:
       return { ...state, chatloading: false, error: action.payload };
     case USER_LEAVE_GROUP:
-      return {chatloading:false,CurrChat:{}}  
+      return { chatloading: false, CurrChat: {} };
     case USER_LOGOUT_SUCCESS_CHAT:
-      return {chatloading:false,CurrChat:{},SelectedChat:{},error:""}  
+      return { chatloading: false, CurrChat: {}, SelectedChat: {}, error: "" };
     case USER_LOGOUT_SUCCESS:
-        return {chatloading:false,CurrChat:{},SelectedChat:{},error:""}   
+      return { chatloading: false, CurrChat: {}, SelectedChat: {}, error: "" };
     // case SET_SELECTED_CHAT_REQUEST:
     //   return { ...state, selectedchatload: true };
     // case SET_SELECTED_CHAT_SUCCESS:

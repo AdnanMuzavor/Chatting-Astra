@@ -49,32 +49,31 @@ const Login = () => {
         setloading(false);
         return;
       }
-      // const { data } = await axios.post(
-      //   "/api/user/login",
-      //   { email, password },
-      //   {
-      //     headers: {
-      //       "Content-type": "application/json",
-      //     },
-      //   }
-      // );
-      dispatch(Userlogin(email, password));
-      // console.log(data);
-      setloading(false);
 
-      // localStorage.setItem("userInfo", JSON.stringify(data));
-      if (UserInfo.name) {
-        console.log(UserInfo);
-        history.push("/chat");
-      } else if (!UserInfo.name) {
-        toast({
-          title: "User login fail",
-          status: "warning",
-          duration: 5000,
-          isClosable: true,
-          position: "bottom",
-        });
-      }
+      dispatch(Userlogin(email, password));
+
+      setTimeout(() => {
+        setloading(false);
+        if (UserInfo) {
+          toast({
+            title: "User logged in",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+          });
+          history.push("/chat");
+        }
+        else{
+          toast({
+            title: "User not log in",
+            status: "warning",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+          });
+        }
+      }, 2000);
     } catch (e) {
       console.log(e);
       setloading(false);
@@ -132,39 +131,6 @@ const Login = () => {
         </InputGroup>
       </FormControl>
 
-      {/* <FormControl id="password" isRequired>
-        <FormLabel>confirm password</FormLabel>
-      
-        <InputGroup>
-          <Input
-            type={show ? "text" : "password"}
-            placeholder="Enter your password"
-            onChange={(e) => setconfirmpassword(e.target.value)}
-          ></Input>
-          <InputRightElement width={"4.5rem"}>
-            <Button
-              h="2rem"
-              size={"sm"}
-              onClick={() => {
-                show === true ? setshow(false) : setshow(true);
-              }}
-            >
-              {show ? "Hide" : "Show"}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </FormControl> */}
-
-      {/* <FormControl id="Pic" isRequired>
-        <FormLabel>Upload your picture</FormLabel>
-        <Input
-          type="file"
-          p={1.5}
-          accept="image/*"
-          placeholder="Upload your pic"
-          onChange={(e) =>postdetails(e.target.files[0])}
-        ></Input>
-      </FormControl> */}
       <Button
         colorScheme={"blue"}
         width="100%"

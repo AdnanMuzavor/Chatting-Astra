@@ -55,8 +55,10 @@ export const UserReducers = (
       }
     case USER_OPENED_NOTIFIED_CHAT:
       if (state.Notifications) {
-        state.Notifications.filter((e) => e._id !== action.payload);
-        return { ...state };
+        const Nt = state.Notifications.filter((e) => {
+          return e._id !== action.payload;
+        });
+        return { ...state, Notifications: Nt };
       } else {
         return { ...state };
       }

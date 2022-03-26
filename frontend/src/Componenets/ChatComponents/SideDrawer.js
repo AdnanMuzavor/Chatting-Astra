@@ -22,6 +22,11 @@ import axios from "axios";
 import SearchCard from "../SmallComponents/SearchResultCard";
 import Search_loading from "../Loadingcomponents/search_results_loading";
 import { setCurrChatVal } from "../../Actions/Current_Chat";
+
+import { GetMessages } from "../../Actions/Get_Messages";
+
+import { UserOpenedNotifiedChat } from "../../Actions/Notify_user";
+
 const SideDrawer = () => {
   //Uisng toast
   const toast = useToast();
@@ -131,6 +136,23 @@ const SideDrawer = () => {
       });
     }
   };
+
+  //Calling selected Chat function
+  const SelectChat = (userid, isgroup, chatid) => {
+    setselectedchat(chatid);
+    //Set selected chat
+    dispatch(setCurrChatVal(userid, UserInfo, isgroup, chatid));
+    //get messages of that chat
+    dispatch(GetMessages(UserInfo, chatid));
+    //If user opnend notified chat
+    dispatch(UserOpenedNotifiedChat(UserInfo._id));
+    //Pushing to chatting page
+    history.push("/chatting");
+  };
+
+  const TakeMeToChat = (chatid) => {
+    alert(`take me to ${chatid}`);
+  };
   return userloading ? (
     "loading"
   ) : (
@@ -140,12 +162,11 @@ const SideDrawer = () => {
           <a className="navbar-brand" href="#">
             Navbar
           </a>
+
           <Link className="navbar-brand" to="/chat">
             Chats
           </Link>
-          <i class="fas fa-bell fa-2x navbar-brand">
-            {Notifications ? Notifications.length : 0}
-          </i>
+
           <button
             className="navbar-toggler"
             type="button"
@@ -230,7 +251,16 @@ const SideDrawer = () => {
                       {Notifications.map((e) => {
                         return (
                           <>
-                            <li key={e._id}>
+                            <li
+                              key={e._id}
+                              onClick={() =>
+                                SelectChat(
+                                  UserInfo._id,
+                                  e.chat.isGroup,
+                                  e.chat._id
+                                )
+                              }
+                            >
                               {e.chat.isGroupChat
                                 ? `New message from ${e.chat.chatName}`
                                 : `New Message from ${
