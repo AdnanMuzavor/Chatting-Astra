@@ -38,7 +38,7 @@ const SendMessage = asyncHandler(async (req, res) => {
       { latestMessage: message },
       { new: true }
     );
-   console.log(message)
+  //  console.log(message)
     res.send(message);
   } catch (e) {
     res.status(400);

@@ -19,8 +19,8 @@ import typinganimation from "../Animations/typing.json";
 import { NotifyUser } from "../Actions/Notify_user";
 //SOCKET io connection stuff
 //
-//const ENDPOINT = "http://localhost:5000";
-const ENDPOINT = "https://mern-chat-a-tive.herokuapp.com/";
+const ENDPOINT = "http://localhost:5000";
+//const ENDPOINT = "https://mern-chat-a-tive.herokuapp.com/";
 
 var socket, selectedChatCompare;
 
@@ -235,7 +235,11 @@ const ChattingScrren = () => {
     socket.emit("setup", UserInfo);
 
     socket.on("connected", () => {
-      //alert("connected");
+      alert(
+        `Opening chat: ${CurrChat._id} which is ${
+          CurrChat.isGroupChat ? "is" : "is not"
+        } a group chat`
+      );
       setsocketconnected(true);
     });
 
@@ -243,10 +247,10 @@ const ChattingScrren = () => {
     socket.emit("join chat", CurrChat._id);
 
     //For backup of current message
-    selectedChatCompare = CurrChat;
+
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
-  }, []);
+  }, [CurrChat]);
 
   //Useeffect to handle real time messaging
   //Use effect to be handled on sending message
@@ -254,31 +258,28 @@ const ChattingScrren = () => {
     // alert("annonymous useeffect")
     socket.on("message received", (newMessageReceived) => {
       //       message received
-      if (
-        !selectedChatCompare ||
-        selectedChatCompare._id !== newMessageReceived.chat._id ||
-        newMessageReceived.chat._id !== CurrChat._id
-      ) {
-        //Give notification
-        console.log("no");
-        console.log("give notification");
-        if (
-          Notifications &&
-          !Notifications.find((e) => e._id === newMessageReceived._id)
-        ) {
-          dispatch(NotifyUser(newMessageReceived));
-        } else if (!Notifications || Notifications.length === 0) {
-          dispatch(NotifyUser(newMessageReceived));
-        }
-      } else {
-        //  alert("dispatching")
-        console.log("Disptc hing action");
+      // alert(`Message is being received,Currchat:${CurrChat._id}, Message chat: ${newMessageReceived.chat._id}`)
+      // console.log("message is being received");
+      // console.log(newMessageReceived);
+      if (CurrChat._id === newMessageReceived.chat._id) {
         dispatch(AppendToMessage(newMessageReceived));
         setTimeout(() => {
           var box = document.getElementById("message");
           box.scrollTop = box.scrollHeight;
         }, 2000);
+      } else {
+        // alert(
+        //   `notifying user as he has not currently opened ${newMessageReceived.chat._id}`
+        // );
+        // if (
+        //   (Notifications &&
+        //     !Notifications.find((e) => e._id === newMessageReceived._id)) ||
+        //   !Notifications ||
+        //   Notifications.length === 0
+        // ) {
+        dispatch(NotifyUser(newMessageReceived));
       }
+      //}
     });
   }, [socket]);
 

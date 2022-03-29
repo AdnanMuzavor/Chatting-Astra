@@ -31,13 +31,23 @@ export const MessageReducer = (
     case GET_ALL_MESSAGES_SUCCESS:
       return { ...state, chatisloading: false, Messages: action.payload };
     case GET_ALL_MESSAGES_WHILE_EXISTING:
-      return { ...state, chatisloading:false,Messages: action.payload };
+      return { ...state, chatisloading: false, Messages: action.payload };
     case APPPEND_MESSAGE:
-      if (state.Messages.find((e) => e._id === action.payload._id)) {
-        console.log("Messsage added");
+      if (
+        state.Messages.length >= 1 &&
+        state.Messages[0].chat._id === action.payload.chat._id
+      ){
+        console.log(state.Messages[0].chat._id)
+        console.log(action.payload.chat._id)
+        if (state.Messages.find((e) => e._id === action.payload._id)) {
+          console.log("Messsage added");
+          return { ...state };
+        } else {
+          return { ...state, Messages: [...state.Messages, action.payload] };
+        }
+      }
+      else {
         return { ...state };
-      } else {
-        return { ...state, Messages: [...state.Messages, action.payload] };
       }
     case GET_ALL_MESSAGES_FAIL:
       return { ...state, chatisloading: false, error: action.payload };

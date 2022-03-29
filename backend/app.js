@@ -84,7 +84,7 @@ io.on("connection", (socket) => {
   socket.on("new message", (newMessageReceived) => {
     var chat = newMessageReceived.chat;
     console.log(`chat is:`);
-    console.log(chat);
+    console.log(`User joined chat: ${newMessageReceived.chat._id}`);
     if (!chat.users) return console.log("chat.users not defined");
     //Making message received to all users except current user
     chat.users.forEach((user) => {
@@ -92,8 +92,9 @@ io.on("connection", (socket) => {
       if (user._id === newMessageReceived.sender._id) {
         return;
       }
-      console.log("EMITTING");
+      //console.log("EMITTING");
       //Else if it's not user who sent message,send it
+      console.log(`emitting in ${user._id}`);
       socket.in(user._id).emit("message received", newMessageReceived);
     });
   });
