@@ -235,11 +235,11 @@ const ChattingScrren = () => {
     socket.emit("setup", UserInfo);
 
     socket.on("connected", () => {
-      alert(
+      /*  alert(
         `Opening chat: ${CurrChat._id} which is ${
           CurrChat.isGroupChat ? "is" : "is not"
         } a group chat`
-      );
+      );*/
       setsocketconnected(true);
     });
 
