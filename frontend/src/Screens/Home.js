@@ -3,23 +3,20 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import Login from "../Componenets/Authentication/login";
 import Signup from "../Componenets/Authentication/signup";
-import Chatlist from "./Chatlist";
-import Chatpage from "./ChatPage";
+
 import { useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
 const Homepage = () => {
-  //Getting dispatch
-  const dispatch = useDispatch();
+
   //Getting user data
   const UserDetails = useSelector((state) => state.UserDetails);
   const { loading: userloading, error, UserInfo } = UserDetails;
 
   const history = useHistory();
   useEffect(async () => {
-    console.log("Home page");
-    console.log(UserInfo)
+ 
     if (UserInfo.name && UserInfo!=={}) {
       history.push("/chat");
     }
@@ -37,8 +34,8 @@ const Homepage = () => {
           borderRadius={"lg"}
           borderWidth="1px"
         >
-          <Text fontSize="3xl" fontFamily="word-sans">
-            Talk-to-tive
+          <Text fontSize="3xl" fontFamily="word-sans" className="main_title">
+            Chatting Astra
           </Text>
         </Box>
         <div className="container">

@@ -201,6 +201,10 @@ const ChatBox = () => {
       }, timerlength);
     }
   };
+  //scroll to top of screen
+  const ScrollTop=()=>{
+    window.scrollTo(0,0);
+  }
 
   //Use effect for socket.io connection
   useEffect(() => {
@@ -338,7 +342,7 @@ const ChatBox = () => {
                     }}
                   />
                 </div>
-                {search !== "" ? (
+                {search.length>=2  ? (
                   <div className="container">
                     <h5 className="text-center mb-4">Search Results</h5>
                     {searchresult.length >= 1 ? (
@@ -417,7 +421,7 @@ const ChatBox = () => {
                         : CurrChat.users[0].name
                       : CurrChat.chatName}
                   </h2>
-                  <div className="iconwrap" onClick={() => setmodal(!modal)}>
+                  <div className="iconwrap" onClick={() => {setmodal(!modal);ScrollTop()}}>
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </div>
                 </div>
@@ -429,13 +433,13 @@ const ChatBox = () => {
                       Messages.map((e, i) => {
                         return e.sender._id === UserInfo._id ? (
                           <>
-                            <div className="right mt-1" key={Math.random()}>
+                            <div className="right mt-1 " key={Math.random()}>
                               <p>{e.content}</p>
                             </div>
                           </>
                         ) : (
                           <>
-                            <div className="left mt-1" key={Math.random()}>
+                            <div className="left mt-1 " key={Math.random()}>
                               <img
                                 src={e.sender.pic}
                                 className="rounded-circle avatar"
