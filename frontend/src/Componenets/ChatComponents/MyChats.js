@@ -273,36 +273,39 @@ const MyChats = () => {
                 }}
               />
               {/* List of users selected */}
-              <div className="selected d-flex justify-content-center">
-                <div className="row">
-                  {users.map((e) => {
-                    return users.length >0 ? (
-                      <div
-                        className="users2 col-md-6 col-lg-6 col-6"
-                        key={e._id}
-                      >
-                        <h6>{e.name.toUpperCase()}</h6>
-                        <h1
-                          className="closeicon2"
-                          onClick={(et) => {
-                            UpdateListHandler(e._id);
-                          }}
+              {users.length >= 1 && (
+                <div className="selected d-flex justify-content-center">
+                  <div className="row">
+                    {users.map((e) => {
+                      return users.length > 0 ? (
+                        <div
+                          className="users2 col-md-6 col-lg-6 col-6"
+                          key={e._id}
                         >
-                          X
-                        </h1>
-                      </div>
-                    ) : (
-                      <h1>No users selected</h1>
-                    );
-                  })}
+                          <h6>{e.name.toUpperCase()}</h6>
+                          <h1
+                            className="closeicon2"
+                            onClick={(et) => {
+                              UpdateListHandler(e._id);
+                            }}
+                          >
+                            X
+                          </h1>
+                        </div>
+                      ) : (
+                        <h1>No users selected</h1>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
+
               {/* Showing search result so that admin can select users */}
               {search !== "" ? (
-                <div className="container">
-                  <h5 className="text-center mb-4">Search Results</h5>
+                <div className="container ">
+                  <h5 className="text-center mb-4 srch_result">Search Results</h5>
                   {searchresult.length >= 1 ? (
-                    <div className="row d-flex justify-content-center">
+                    <div className="row d-flex justify-content-center srch_container">
                       {loading ? (
                         <Search_loading />
                       ) : (
@@ -317,15 +320,15 @@ const MyChats = () => {
                                 Add={() => AdderUser(e)}
                               />
                             </>
-                          ) : null;
+                          ) : <p className="srch_result">Sorry no user with this name</p>;
                         })
                       )}
                     </div>
-                  ) : null}
+                  ) : <p className="srch_result srch_msg">Sorry no user with this name</p>}
                 </div>
               ) : null}
 
-              <button onClick={SubmitGroupHandler}>Create Chat</button>
+              <button className="create_chat_btn" onClick={SubmitGroupHandler}>Create Chat</button>
             </div>
           </div>
         </div>
@@ -348,55 +351,62 @@ const MyChats = () => {
             </div>
           </div>
           <div className="col-md-12 col-lg-12 col-12 chatlist">
-            {ChatList.length>=1 && ChatList.map((e, i) => {
-              return i >= 0 && e.users.find((e) => e._id === UserInfo._id) ? (
-                <ChatListCard
-                  key={e._id}
-                  name={
-                    e.users.length === 2
-                      ? e.users[1]._id != UserInfo._id
-                        ? e.users[1].name
-                        : e.users[0].name
-                      : e.chatName
-                  }
-                  email={
-                    e.users.length === 2
-                      ? e.users[1]._id != UserInfo._id
-                        ? e.users[1].email
-                        : e.users[0].email
-                      : "Group Chat"
-                  }
-                  pic={
-                    e.users.length === 2
-                      ? e.users[1]._id != UserInfo._id
-                        ? e.users[1].pic
-                        : e.users[0].pic
-                      : "https://tse1.mm.bing.net/th?id=OIP.hD_nnTOg6EuVo4Wyur927wHaE8&pid=Api&P=0&w=246&h=164"
-                  }
-                  // SelectChatFn={() => SelectChat(e.users[1]._id)}
+            {ChatList.length >= 1 &&
+              ChatList.map((e, i) => {
+                return i >= 0 && e.users.find((e) => e._id === UserInfo._id) ? (
+                  <ChatListCard
+                    key={e._id}
+                    name={
+                      e.users.length === 2
+                        ? e.users[1]._id != UserInfo._id
+                          ? e.users[1].name
+                          : e.users[0].name
+                        : e.chatName
+                    }
+                    email={
+                      e.users.length === 2
+                        ? e.users[1]._id != UserInfo._id
+                          ? e.users[1].email
+                          : e.users[0].email
+                        : "Group Chat"
+                    }
+                    pic={
+                      e.users.length === 2
+                        ? e.users[1]._id != UserInfo._id
+                          ? e.users[1].pic
+                          : e.users[0].pic
+                        : "https://tse1.mm.bing.net/th?id=OIP.hD_nnTOg6EuVo4Wyur927wHaE8&pid=Api&P=0&w=246&h=164"
+                    }
+                    // SelectChatFn={() => SelectChat(e.users[1]._id)}
 
-                  SelectChatFn={() =>
-                    SelectChat(
-                      e.users[1]._id !== UserInfo._id
-                        ? e.users[1]._id
-                        : e.users[0]._id,
-                      e.isGroupChat,
-                      e._id
-                    )
-                  }
-                  isselected={selectedchat === e._id ? true : false}
-                />
-              ) : <h1 style="background-color:red;">Hey!! Search for a friend to chat using search button</h1>
-            })}
-            {
-              ChatList.length<1 ?<>  <Prompter name={UserInfo.name}/> </> :null
-            }
+                    SelectChatFn={() =>
+                      SelectChat(
+                        e.users[1]._id !== UserInfo._id
+                          ? e.users[1]._id
+                          : e.users[0]._id,
+                        e.isGroupChat,
+                        e._id
+                      )
+                    }
+                    isselected={selectedchat === e._id ? true : false}
+                  />
+                ) : (
+                  <h1 style="background-color:red;">
+                    Hey!! Search for a friend to chat using search button
+                  </h1>
+                );
+              })}
+            {ChatList.length < 1 ? (
+              <>
+                {" "}
+                <Prompter name={UserInfo.name} />{" "}
+              </>
+            ) : null}
           </div>
         </div>
       </div>
       {/* <ChatBox/> */}
     </>
-
   );
 };
 

@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import img from "../Images/homechatimg.jpg";
 import ChatBox from "../Componenets/ChatComponents/ChatBox";
+import Footer from "../Componenets/SmallComponents/Footer";
 const Chatpage = () => {
   //Getting dispatch
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const Chatpage = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

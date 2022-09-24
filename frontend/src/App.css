@@ -283,7 +283,7 @@
   border: 2px solid black;
   border-radius: 0.4rem;
   height: 3.2rem;
-  border-top: none;
+ 
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   
@@ -326,13 +326,20 @@
 /*Create group chat modal CSS*/
 .modal2 {
   position: absolute;
-  border: 2px solid black;
+  border: 4px solid black;
   width: 30rem;
   min-height: 15rem;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
   top: 20%;
-  /* left: 20%; */
-  background-color: aqua;
+
+  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(171,102,255,1) 0%, rgba(116,182,247,1) 90% );
+}
+/*Create chat button*/
+.create_chat_btn{
+  background-image: radial-gradient( circle farthest-corner at 10% 20%,   rgba(116,182,247,1) 0%, rgba(171,102,255,1) 90% );
+}
+.create_chat_btn:hover{
+  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(171,102,255,1) 0%, rgba(116,182,247,1) 90% );
 }
 .modalbody {
   display: flex;
@@ -340,6 +347,7 @@
   align-items: center;
   padding: 0.8rem;
   flex-direction: column;
+  color: #fff;
 }
 .vis {
   display: block;
@@ -360,6 +368,7 @@
   border-radius: 0.5rem;
   border: 2px solid black;
   padding: 0.3rem;
+  color: black;
 }
 .inputs button {
   width: 6rem;
@@ -379,6 +388,7 @@
   width: 3rem;
   padding: 0.3rem;
   cursor: pointer;
+  color: #fff;
 }
 .closeicon:hover {
   color: rgb(251, 255, 0);
@@ -389,14 +399,34 @@
   border: 2px solid black;
   padding: 0.2rem;
   border-radius: 0.5rem;
-  display: flex;
-  justify-content: space-between;
+  display: flex !important;
+  justify-content: space-between !important;
   align-items: center;
   margin: 0.2rem;
   cursor: pointer;
+  color: #fff;
+  background-color: #00a2ff;
+}
+/*Results of serach while creating group, heading styling*/
+.srch_result{
+   color: #00a2ff;
+   font-weight: bolder;
+}
+/*Message shown wehn no users ar effoudn while creating group*/
+.srch_msg
+{
+  border: 2px solid #004e7b;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+}
+/*List of user shown while the user searching for making group, ther eshould  a bfix height for this conatiner*/
+.srch_container{
+  height: 10rem;
+  overflow-y: scroll;
 }
 .grpwrap h5 {
   padding: 0.2rem;
+  color: #fff;
 }
 .grpwrap img {
   border-radius: 1rem;
@@ -540,4 +570,14 @@
   padding: 0.2rem;
   margin: 0.1rem;
   text-align: center;
+}
+
+/*Footer CSS*/
+.webbyadnan{
+  color: #fff;
+  margin-top: 0.5rem;
+}
+
+.footertext{
+  color: #00a2ff;
 }
