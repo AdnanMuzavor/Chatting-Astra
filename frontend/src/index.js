@@ -8,7 +8,6 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 
-import chatProvider from "./Context/ContextProvider";
 // function App({ Component }) {
 //   // 2. Use at the root of your app
 //   return (
@@ -18,13 +17,14 @@ import chatProvider from "./Context/ContextProvider";
 //   )
 // }
 ReactDOM.render(
-  
   <Provider store={store}>
-    <ChakraProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ChakraProvider>
+   
+      <ChakraProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ChakraProvider>
+    
   </Provider>,
   document.getElementById("root")
 );

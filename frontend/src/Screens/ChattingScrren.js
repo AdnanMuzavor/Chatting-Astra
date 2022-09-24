@@ -1,3 +1,5 @@
+//PURPOSE: A MAIN COMPONENT WHERE USER IS GOING TO SEND THE MESSAGE
+
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -16,15 +18,21 @@ import { AddnewUserToGrp } from "../Actions/Add_New_User";
 import { LeaveGroup } from "../Actions/Current_Chat";
 import Lottie from "react-lottie";
 import typinganimation from "../Animations/typing.json";
-import { NotifyUser } from "../Actions/Notify_user";
+import { NotifyUser, UserOpenedNotifiedChat } from "../Actions/Notify_user";
+import { useHistory, useInRouterContext } from "react-router-dom";
+
+
+
 //SOCKET io connection stuff
 //
-//const ENDPOINT = "http://localhost:5000";
-const ENDPOINT = "https://mern-chat-a-tive.herokuapp.com/";
+const ENDPOINT = "http://localhost:5000";
+//const ENDPOINT = "https://mern-chat-a-tive.herokuapp.com/";
 
 var socket, selectedChatCompare;
 
 const ChattingScrren = () => {
+
+
   //Getting redux states_____________________________________________________
   const toast = useToast();
 
@@ -224,6 +232,7 @@ const ChattingScrren = () => {
   //Useeffect for connecting with socket.io
 
   useEffect(() => {
+    
     if (Messages.length === 0 || Messages.length <= 2) {
       dispatch(GetMessages(UserInfo, CurrChat._id, false));
     }
@@ -250,38 +259,28 @@ const ChattingScrren = () => {
 
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
+   // dispatch(UserOpenedNotifiedChat(CurrChat._id))
+
   }, [CurrChat]);
 
   //Useeffect to handle real time messaging
   //Use effect to be handled on sending message
   useEffect(() => {
-    // alert("annonymous useeffect")
     socket.on("message received", (newMessageReceived) => {
-      //       message received
-      // alert(`Message is being received,Currchat:${CurrChat._id}, Message chat: ${newMessageReceived.chat._id}`)
-      // console.log("message is being received");
-      // console.log(newMessageReceived);
-      if (CurrChat._id === newMessageReceived.chat._id) {
+      if (CurrChat && CurrChat._id === newMessageReceived.chat._id) {
         dispatch(AppendToMessage(newMessageReceived));
         setTimeout(() => {
           var box = document.getElementById("message");
           box.scrollTop = box.scrollHeight;
         }, 2000);
       } else {
-        // alert(
-        //   `notifying user as he has not currently opened ${newMessageReceived.chat._id}`
-        // );
-        // if (
-        //   (Notifications &&
-        //     !Notifications.find((e) => e._id === newMessageReceived._id)) ||
-        //   !Notifications ||
-        //   Notifications.length === 0
-        // ) {
         dispatch(NotifyUser(newMessageReceived));
       }
       //}
     });
+
   }, [socket]);
+  useEffect(() => {});
 
   //Animation details
   const defaultOptions = {
@@ -298,6 +297,11 @@ const ChattingScrren = () => {
     var box = document.getElementById("message");
     box.scrollTop = box.scrollHeight;
   };
+
+  //Calling handling functions
+  const history = useHistory();
+  
+
   return chatloading || chatisloading ? (
     <Search_loading />
   ) : (
@@ -472,6 +476,7 @@ const ChattingScrren = () => {
                   <div className="iconwrap" onClick={() => setmodal(!modal)}>
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </div>
+             
                 </div>
                 <div className="col-md-12 col-lg-12 col-12 ">
                   <div className="messagebox" id="message">

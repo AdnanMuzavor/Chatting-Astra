@@ -30,7 +30,7 @@ const registerUser = asyncHandler(async (req, res) => {
         pic,
       });
       const token = await newUser.gettoken(newUser._id);
-      if (newUser) {
+      if (newUser && token) {
         res.status(201).json({
           _id: newUser._id,
           name: newUser.name,
@@ -50,14 +50,15 @@ const registerUser = asyncHandler(async (req, res) => {
         email,
         password,
       });
-      if (newUser) {
+      const token = await generatetoken(newUser._id);
+      if (newUser && token) {
         res.status(201).json({
           _id: newUser._id,
           name: newUser.name,
           email: newUser.email,
           pw: newUser.password,
           pic: newUser.pic,
-          token: generatetoken(newUser._id),
+          token: token,
         });
         //Else throw errorr
       } else {
@@ -66,13 +67,6 @@ const registerUser = asyncHandler(async (req, res) => {
       }
     }
 
-    // const createUser=new User({
-    //     name,
-    //   email,
-    //   password,
-    //   pic,
-    // })
-    // const newUser=await createUser.save();
     //  If user is created return it's data
     if (newUser) {
       res.status(201).json({
@@ -148,9 +142,22 @@ const allUsers = asyncHandler(async (req, res) => {
   //the result will be stored in keyword and we can search fromm it
   //keyword can be smail if email matched
   //or it can be name if name matched
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } })
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
   //Means find all users except current loggedin user
   //redq.user id value is set by middleware
   res.send(users);
 });
-module.exports = { registerUser, loginUser, allUsers };
+
+const socketidupdator = asyncHandler(async (req, res) => {
+  console.log("inside fn");
+  const { user, socketid } = req.body;
+  console.log(req.body);
+  const updateuser = await User.findByIdAndUpdate(
+    { _id: user._id },
+    { socketid: socketid },
+    { new: true }
+  );
+  console.log(updateuser);
+  res.send(updateuser);
+});
+module.exports = { registerUser, loginUser, allUsers, socketidupdator };

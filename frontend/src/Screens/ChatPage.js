@@ -1,15 +1,16 @@
+//PURPOSE: tHIS IS MAIN SCREEN WHERE ALL THE FOUR COMPONENTS ARE PRESENT
+
+
 import React from "react";
 import { useEffect } from "react";
-import axios from "axios";
-import { useState } from "react";
-import { ChatState } from "../Context/ContextProvider";
+
 import SideDrawer from "../Componenets/ChatComponents/SideDrawer";
 import MyChats from "../Componenets/ChatComponents/MyChats";
-import ChatBox from "../Componenets/ChatComponents/ChatBox";
-import { Box } from "@chakra-ui/react";
+
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import img from "../Images/homechatimg.jpg";
+import ChatBox from "../Componenets/ChatComponents/ChatBox";
 const Chatpage = () => {
   //Getting dispatch
   const dispatch = useDispatch();
@@ -38,11 +39,8 @@ const Chatpage = () => {
           </div>
 
           <div className="col-md-8 col-lg-8 col-12 homeimgcont ">
-            {/* <ChatBox /> */}
-            <img src={img} alt="Home image" className="img-fluid homeimg" />
-            <h6 className="text-center hometext">
-              Chat with any person you want
-            </h6>
+           <ChatBox/>
+           
           </div>
         </div>
       </div>

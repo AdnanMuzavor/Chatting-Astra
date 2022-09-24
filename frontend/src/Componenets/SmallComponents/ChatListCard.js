@@ -20,7 +20,7 @@ const ChatListCard = ({ key, name, email, pic, SelectChatFn, isselected }) => {
         </div>
         <div className="detailscont">
           <h6>{name}</h6>
-          <p>{email}</p>
+        
         </div>
       </div>
     </>

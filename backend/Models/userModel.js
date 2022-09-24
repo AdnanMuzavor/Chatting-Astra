@@ -22,6 +22,9 @@ const userSchema = new mongoose.Schema(
       default:
         "https://www.carrycargo.com/wp-content/uploads/2018/10/user_dummy.jpg",
     },
+    socketid:{
+      type:String
+    }
   },
   {
     timestamps: true,

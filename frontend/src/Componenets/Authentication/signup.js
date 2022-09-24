@@ -7,9 +7,9 @@ import {
   InputRightElement,
   Button,
 } from "@chakra-ui/react";
-import React, { useImperativeHandle, useState } from "react";
+import React, { useState } from "react";
 import { useToast } from "@chakra-ui/react";
-import axios from "axios";
+
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UserSignup } from "../../Actions/User_signup";
@@ -23,6 +23,7 @@ const Signup = () => {
 
   //To use history to push onto other page
   const history = useHistory();
+
   //States to take care of inputs
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
@@ -32,12 +33,13 @@ const Signup = () => {
   const [show, setshow] = useState(false);
 
   const [loading, setloading] = useState(false);
+
   //Creating instance of toast
   const toast = useToast();
 
   //Function to deal with profile photo upload
   const postdetails = async (file2) => {
-    console.log(file2);
+    
     setloading(true);
     //PART-I
     //If file is not selected then giving a toast
@@ -67,7 +69,6 @@ const Signup = () => {
           }
         );
         const uploaded = await data2.json();
-        console.log(uploaded);
         setloading(false);
         setpic(uploaded.secure_url);
       } else {
@@ -120,7 +121,7 @@ const Signup = () => {
       if (UserInfo) {
         toast({
           title: "Registration done.",
-          status: "warning",
+          status: "success",
           duration: 5000,
           isClosable: true,
           position: "bottom",
@@ -128,28 +129,7 @@ const Signup = () => {
         history.push("/chat");
       }
 
-      //Using direct API call
-      // const { data } = await axios.post(
-      //   "/api/user",
-      //   { name, email, password, pic },
-      //   {
-      //     headers: {
-      //       "Content-type": "application/json",
-      //     },
-      //   }
-      // );
-      // console.log(data);
-      // toast({
-      //   title: "Registration done.",
-      //   status: "warning",
-      //   duration: 5000,
-      //   isClosable: true,
-      //   position: "bottom",
-      // });
-      // //Storing this data in local storage
-      // localStorage.setItem("userInfo", JSON.stringify(data));
-      // setloading(false);
-      // history.push("/chats");
+
     } catch (e) {
       console.log(e);
       toast({
@@ -230,11 +210,12 @@ const Signup = () => {
       </FormControl>
 
       <FormControl id="Pic" isRequired>
-        <FormLabel>Upload your picture</FormLabel>
+        <label ><strong>Upload your picture</strong></label>
         <Input
           type="file"
           p={1.5}
           accept="image/*"
+          required="false"
           placeholder="Upload your pic"
           onChange={(e) => postdetails(e.target.files[0])}
         ></Input>

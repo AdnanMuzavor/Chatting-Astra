@@ -3,11 +3,17 @@ const express = require("express");
 //Creating a router
 const userRouter = express.Router();
 
-const { registerUser, loginUser, allUsers } = require("../Controllers/usercontrollers");
-const {protect} = require("../middleware/authmiddleware");
+const {
+  registerUser,
+  loginUser,
+  allUsers,
+  socketidupdator,
+} = require("../Controllers/usercontrollers");
+const { protect } = require("../middleware/authmiddleware");
 
 userRouter.route("/").post(registerUser);
 userRouter.route("/login").post(loginUser);
-userRouter.route("/").get(protect,allUsers);
+userRouter.route("/socketio").put(socketidupdator);
+userRouter.route("/").get(protect, allUsers);
 
 module.exports = userRouter;

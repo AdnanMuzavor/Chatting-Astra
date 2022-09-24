@@ -1,5 +1,6 @@
 import {
   NOTIFY_USER,
+  UPDATE_USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -25,6 +26,8 @@ export const UserReducers = (
     case USER_LOGIN_REQUEST:
       return { ...state, loading: true };
     case USER_LOGIN_SUCCESS:
+      return { ...state, loading: false, UserInfo: action.payload };
+    case UPDATE_USER_LOGIN_SUCCESS:
       return { ...state, loading: false, UserInfo: action.payload };
     case USER_LOGIN_FAIL:
       return { ...state, loading: false, error: action.payload };
@@ -54,11 +57,14 @@ export const UserReducers = (
         }
       }
     case USER_OPENED_NOTIFIED_CHAT:
-      if (state.Notifications) {
+      // return { ...state, Notifications: []}
+      if (state.Notifications.length>=1) {
+     
         const Nt = state.Notifications.filter((e) => {
-          return e._id !== action.payload;
+          return e.chat._id != action.payload;
         });
-        return { ...state, Notifications: Nt };
+        console.log(Nt)
+        return { ...state, Notifications: [...Nt]}
       } else {
         return { ...state };
       }

@@ -139,15 +139,22 @@ const SideDrawer = () => {
 
   //Calling selected Chat function
   const SelectChat = (userid, isgroup, chatid) => {
+
+ 
+
+    //If user opnend notified chat
+    dispatch(UserOpenedNotifiedChat(chatid));
+
+
     setselectedchat(chatid);
     //Set selected chat
     dispatch(setCurrChatVal(userid, UserInfo, isgroup, chatid));
     //get messages of that chat
     dispatch(GetMessages(UserInfo, chatid));
-    //If user opnend notified chat
-    dispatch(UserOpenedNotifiedChat(UserInfo._id));
+    alert("Pushing")
     //Pushing to chatting page
-    history.push("/chatting");
+  history.push("/chatting");
+  
   };
 
   const TakeMeToChat = (chatid) => {
@@ -248,11 +255,13 @@ const SideDrawer = () => {
                     </>
                   ) : (
                     <>
+                    <h6 className="notifier_heading">Notifications</h6>
                       {Notifications.map((e) => {
                         return (
                           <>
                             <li
                               key={e._id}
+                              className="notifier"
                               onClick={() =>
                                 SelectChat(
                                   UserInfo._id,
@@ -262,13 +271,13 @@ const SideDrawer = () => {
                               }
                             >
                               {e.chat.isGroupChat
-                                ? `New message from ${e.chat.chatName}`
-                                : `New Message from ${
+                                ? ` ${e.chat.chatName}`
+                                : ` ${
                                     e.chat.users[0]._id === UserInfo._id
                                       ? e.chat.users[1].name
                                       : e.chat.users[0].name
                                   }`}
-                              <Link></Link>
+                             
                             </li>
                           </>
                         );
@@ -305,41 +314,7 @@ const SideDrawer = () => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        {/* <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                {UserInfo.name}
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body mx-auto">
-            <img
-                    src={UserInfo.pic}
-                    className="rounded-circle profile"
-                    
-                    alt="Avatar"
-                  />
-                  <h4 className="text-center mt-2 mb-2"> {UserInfo.email}</h4>
-
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-         
-            </div>
-          </div>
-        </div> */}
+   
         <ProfileModal
           name={UserInfo.name}
           email={UserInfo.email}
@@ -370,6 +345,7 @@ const SideDrawer = () => {
           ) : null}
         </div>
       ) : null}
+      
     </>
   );
 };

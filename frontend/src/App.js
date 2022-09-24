@@ -8,6 +8,7 @@ import Chatpage from "./Screens/ChatPage";
 import ChattingScrren from "./Screens/ChattingScrren";
 
 
+
 function App() {
   return (
     <div className="App">
@@ -16,6 +17,7 @@ function App() {
       <Route path="/" component={Homepage} exact />
       <Route exact path="/chat" component={Chatpage} />
       <Route exact path="/chatting" component={ChattingScrren} />
+    
     </div>
   );
 }

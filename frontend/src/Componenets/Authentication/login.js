@@ -58,13 +58,13 @@ const Login = () => {
           toast({
             title: "User logged in",
             status: "success",
-            duration: 5000,
+            duration: 1000,
             isClosable: true,
             position: "bottom",
           });
+
           history.push("/chat");
-        }
-        else{
+        } else {
           toast({
             title: "User not log in",
             status: "warning",

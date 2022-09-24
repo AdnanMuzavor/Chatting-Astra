@@ -12,6 +12,8 @@ import SearchCard from "../SmallComponents/SearchResultCard";
 import SearchResultMiniCard from "../SmallComponents/SearchResultMiniCard";
 import { useHistory } from "react-router-dom";
 import { UserOpenedNotifiedChat } from "../../Actions/Notify_user";
+import Prompter from "../SmallComponents/Prompter";
+import ChatBox from "./ChatBox";
 const MyChats = () => {
   //Getting useHistory
   const history = useHistory();
@@ -274,7 +276,7 @@ const MyChats = () => {
               <div className="selected d-flex justify-content-center">
                 <div className="row">
                   {users.map((e) => {
-                    return users.length >= 1 ? (
+                    return users.length >0 ? (
                       <div
                         className="users2 col-md-6 col-lg-6 col-6"
                         key={e._id}
@@ -346,7 +348,7 @@ const MyChats = () => {
             </div>
           </div>
           <div className="col-md-12 col-lg-12 col-12 chatlist">
-            {ChatList.map((e, i) => {
+            {ChatList.length>=1 && ChatList.map((e, i) => {
               return i >= 0 && e.users.find((e) => e._id === UserInfo._id) ? (
                 <ChatListCard
                   key={e._id}
@@ -384,12 +386,17 @@ const MyChats = () => {
                   }
                   isselected={selectedchat === e._id ? true : false}
                 />
-              ) : null;
+              ) : <h1 style="background-color:red;">Hey!! Search for a friend to chat using search button</h1>
             })}
+            {
+              ChatList.length<1 ?<>  <Prompter name={UserInfo.name}/> </> :null
+            }
           </div>
         </div>
       </div>
+      {/* <ChatBox/> */}
     </>
+
   );
 };
 

@@ -452,9 +452,7 @@ const ChatBox = () => {
                   </div>
 
                   <div className="textbox">
-                    {
-                      isTyping?<div>loading,typing</div>:null
-                    }
+                
                     <input
                       type="text"
                       name="message"

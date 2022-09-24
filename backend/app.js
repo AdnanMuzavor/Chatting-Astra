@@ -67,6 +67,9 @@ const io = require("socket.io")(server, {
 io.on("connection", (socket) => {
   console.log("connected to socket.io");
   //Socket function for: CONNECTING WITH USER AT FRONTEND
+  //User who is calling
+  socket.emit("me", socket.id);
+
   socket.on("setup", (userData) => {
     //This will create a room for the user
     socket.join(userData._id);
@@ -97,6 +100,40 @@ io.on("connection", (socket) => {
       console.log(`emitting in ${user._id}`);
       socket.in(user._id).emit("message received", newMessageReceived);
     });
+  });
+
+  //To be unused
+  socket.on("calling", (room) => {
+    console.log("Calling");
+    
+    socket.in(room).emit("call");
+  });
+  socket.on("stop call", (room) => {
+    console.log("Stop Calling");
+
+    socket.in(room).emit("stop calling");
+  });
+
+  //Socket for handling call cutting
+  socket.on("disconnect", () => {
+    //socket.broadcats.emit is used to emit message to all users
+    socket.broadcast.emit("callended");
+  });
+
+  //Calling user handler
+  socket.on("calluser", ({ userToCall, signalData, from, name }) => {
+    console.log("Calling user, data is");
+    console.log(`${userToCall}, ${signalData}, ${from} , ${name}`);
+    //Emitting to the user to whom we want to call the required data
+    console.log(`Emittinng in ${userToCall}`);
+    io.to(userToCall).emit("calluserr", { from, name, signal: signalData });
+  });
+
+  //User picks up the call
+  socket.on("answercall", (data) => {
+    console.log("answering call");
+    // console.log(data)
+    io.to(data.to).emit("callaccepted", data.signal);
   });
 
   //Socket for handling typing
