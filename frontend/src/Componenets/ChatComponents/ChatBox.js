@@ -222,8 +222,8 @@ const ChatBox = () => {
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
 
-    var chatbox=document.getElementById("message");
-    chatbox.scrollTop=chatbox.scrollHeight;
+    // var chatbox=document.getElementById("message");
+    // chatbox.scrollTop=chatbox.scrollHeight;
   }, [CurrChat]);
 
   //Send message handler to send message/call API
@@ -262,10 +262,10 @@ const ChatBox = () => {
         //  alert("dispatching")
         console.log("Disptc hing action");
         dispatch(AppendToMessage(newMessageReceived));
-      //   setTimeout(() => {
-      // var box = document.getElementById("message");
-      // box.scrollTop = box.scrollHeight;
-      //   },3000);
+        setTimeout(() => {
+      var box = document.getElementById("message");
+      box.scrollTop = box.scrollHeight;
+        },3000);
       }
     });
   });
