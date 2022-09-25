@@ -262,11 +262,17 @@ const ChatBox = () => {
         //  alert("dispatching")
         console.log("Disptc hing action");
         dispatch(AppendToMessage(newMessageReceived));
-    
+        setTimeout(() => {
+      var box = document.getElementById("message");
+      box.scrollTop = box.scrollHeight;
+        },3000);
       }
     });
   });
-
+ useEffect(()=>{
+  var box = document.getElementById("message");
+  box.scrollTop = box.scrollHeight;
+ },[1000])
   return CurrChat!==null &&chatloading ? (
     <Search_loading />
   ) :CurrChat===null?<h1>Select a chat</h1>: CurrChat.chatName ? (
