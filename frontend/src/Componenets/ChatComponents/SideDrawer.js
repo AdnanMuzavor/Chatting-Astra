@@ -151,9 +151,9 @@ const SideDrawer = () => {
     dispatch(setCurrChatVal(userid, UserInfo, isgroup, chatid));
     //get messages of that chat
     dispatch(GetMessages(UserInfo, chatid));
-    alert("Pushing")
-    //Pushing to chatting page
-  history.push("/chatting");
+  //   alert("Pushing")
+  //   //Pushing to chatting page
+  // history.push("/chatting");
   
   };
 

@@ -7,7 +7,7 @@ export const NotifyUser = (Messagedata) => (dispatch) => {
   dispatch({ type: NOTIFY_USER, payload: Messagedata });
 };
 
-export const UserOpenedNotifiedChat = ({chatid}) => (dispatch) => {
-  
+export const UserOpenedNotifiedChat = (chatid) => (dispatch) => {
+
   dispatch({ type: USER_OPENED_NOTIFIED_CHAT, payload: chatid });
 };

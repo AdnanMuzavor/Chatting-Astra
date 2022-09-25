@@ -43,17 +43,18 @@ export const UserReducers = (
         return { ...state, Notifications: [action.payload] };
       } else {
         console.log("existed");
-        if (
-          !state.Notifications.find(
+        if ( 
+          state.Notifications.find(
             (e) => e.chat._id === action.payload.chat._id
           )
         )
+        return { ...state };
+      
+        else {
           return {
             ...state,
             Notifications: [...state.Notifications, action.payload],
           };
-        else {
-          return { ...state };
         }
       }
     case USER_OPENED_NOTIFIED_CHAT:
@@ -66,7 +67,7 @@ export const UserReducers = (
         console.log(Nt)
         return { ...state, Notifications: [...Nt]}
       } else {
-        return { ...state };
+        return { ...state,Notifications:[] };
       }
     default:
       return state;

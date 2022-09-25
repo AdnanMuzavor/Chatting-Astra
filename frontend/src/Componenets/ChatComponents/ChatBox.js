@@ -13,6 +13,7 @@ import Search_loading from "../Loadingcomponents/search_results_loading";
 import ProfileModal from "../SmallComponents/ProfileModal";
 import SearchResultMiniCard from "../SmallComponents/SearchResultMiniCard";
 import io from "socket.io-client";
+import {NotifyUser} from "../../Actions/Notify_user";
 //socket io setup
 //const ENDPOINT = "http://localhost:5000";
 //https://mern-chat-a-tive.herokuapp.com/
@@ -151,29 +152,24 @@ const ChatBox = () => {
   //Current message which user types
   const [content, setcontent] = useState("");
 
-  const TakeChatBottom = () => {
-    var box = document.getElementById("message");
-    box.scrollTop = box.scrollHeight;
-  };
+
 
   const [scrollload, setscrollload] = useState(false);
 
   //socket.io state
   const [socketconnected, setsocketconnected] = useState(false);
 
+  //Temprary message state
+  const [TempMessages,setTempMessage]=useState(Messages);
   
 
   //Calling fetch chat usimg useeffect
   useEffect(() => {
     if(CurrChat){
+      
     //Fetching messages of chat as soon as chat loads
     dispatch(GetMessages(UserInfo, CurrChat._id));
-    //To scroll to chat botto  of current chat
-    // setscrollload(true);
-    setTimeout(() => {
-      // TakeChatBottom();
-      setscrollload(false);
-    }, 2000);
+
   }
   }, []);
 
@@ -184,6 +180,7 @@ const ChatBox = () => {
   //For hadnling typing
   const typingHandler = (e) => {
     setcontent(e.target.value);
+    
     if (socketconnected) {
       if (!typing) {
         setTyping(true);
@@ -224,6 +221,9 @@ const ChatBox = () => {
     selectedChatCompare = CurrChat;
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
+
+    var chatbox=document.getElementById("message");
+    chatbox.scrollTop=chatbox.scrollHeight;
   }, [CurrChat]);
 
   //Send message handler to send message/call API
@@ -235,11 +235,13 @@ const ChatBox = () => {
     //Fetching messages of chat as soon as chat loads
     setTimeout(() => {
       dispatch(GetMessages(UserInfo, CurrChat._id, socket));
+      //dispatch(AppendToMessage(newMessageReceived))
     }, 2000);
     setTimeout(() => {
       var box = document.getElementById("message");
       box.scrollTop = box.scrollHeight;
-    }, 3000);
+      
+    }, 3500);
   };
 
   //Use effect to be handled on sending message
@@ -254,10 +256,13 @@ const ChatBox = () => {
         //Give notification
         console.log("no");
         console.log("give notification");
+        dispatch(NotifyUser(newMessageReceived));
+        
       } else {
         //  alert("dispatching")
         console.log("Disptc hing action");
         dispatch(AppendToMessage(newMessageReceived));
+    
       }
     });
   });
@@ -421,6 +426,7 @@ const ChatBox = () => {
                         : CurrChat.users[0].name
                       : CurrChat.chatName}
                   </h2>
+                  <div className="typing">{isTyping?"Typing":""}</div>
                   <div className="iconwrap" onClick={() => {setmodal(!modal);ScrollTop()}}>
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </div>
