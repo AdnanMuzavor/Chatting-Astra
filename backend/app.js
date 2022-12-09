@@ -1,6 +1,6 @@
 const express = require("express");
 const chats = require("./data/data");
-const connection = require("./config/conn");
+ 
 //Instance of express
 const app = express();
 
@@ -24,7 +24,7 @@ const port = process.env.PORT || 5000;
 
 //Connecting with data abse
 // require("./config/conn")
-connection();
+
 
 //Using API routers
 
@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === "production") {
     res.send("API IS RUNNING");
   });
 }
-
+require("./config/conn");
 //If APIs does'nt work or any error these lines will be executed
 app.use(notFound);
 app.use(errorHandler);
