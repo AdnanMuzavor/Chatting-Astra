@@ -66,10 +66,14 @@ export const ChatReducers = (
     case REMOVE_USER_GROUP_CHAT_REQUEST:
       return { ...state, chatloading: true };
     case REMOVE_USER_GROUP_CHAT_SUCCESS:
+      console.log("Willing to delete: "+action.payload)
+      var userSet=state.CurrChat.users.filter((e)=>e._id!==action.payload);
+      console.log(userSet);
+      state.CurrChat.users=userSet;
       return {
         ...state,
         chatloading: false,
-        CurrChat: action.payload,
+        CurrChat: state.CurrChat,
         error: "",
       };
     case REMOVE_USER_GROUP_CHAT_FAIL:

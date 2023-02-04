@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AddnewUserToGrp } from "../../Actions/Add_New_User";
 import { LeaveGroup } from "../../Actions/Current_Chat";
 import { AppendToMessage, GetMessages } from "../../Actions/Get_Messages";
-import { RemoveUserFmGrp } from "../../Actions/Remove_User_from_group";
+
 import { SendMessage } from "../../Actions/Send_Message";
 import { RenameGroup } from "../../Actions/Update_Grp_Chat_name";
 import { isLastMessage, isSameSender } from "../../Helpers/User_Message_helper";
@@ -13,11 +13,12 @@ import Search_loading from "../Loadingcomponents/search_results_loading";
 import ProfileModal from "../SmallComponents/ProfileModal";
 import SearchResultMiniCard from "../SmallComponents/SearchResultMiniCard";
 import io from "socket.io-client";
-import {NotifyUser} from "../../Actions/Notify_user";
+import { NotifyUser } from "../../Actions/Notify_user";
+import {RemoveUserFmGrp} from "../../Actions/Remove_User_from_group";
 //socket io setup
-//const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "http://localhost:5000";
 //https://mern-chat-a-tive.herokuapp.com/
-const ENDPOINT = "https://mern-chat-a-tive.herokuapp.com/";
+//const ENDPOINT = "https://mern-chat-a-tive.herokuapp.com/";
 var socket, selectedChatCompare;
 const ChatBox = () => {
   const [currchat, setcurrchat] = useState({ name: "hi" });
@@ -105,6 +106,7 @@ const ChatBox = () => {
     dispatch(RenameGroup(UserInfo, chatId, chatName));
 
     setnewgrpname("");
+    setmodal(false);
   };
 
   //Add new user into group
@@ -112,6 +114,7 @@ const ChatBox = () => {
     const chatId = CurrChat._id;
 
     dispatch(AddnewUserToGrp(UserInfo, newUserId, chatId));
+    setsearch("");
   };
 
   //Function to remove user from group
@@ -130,10 +133,16 @@ const ChatBox = () => {
       config
     );
     console.log(data);
+    // alert("want to delete: "+userId);
+   dispatch(RemoveUserFmGrp(userId));
+    setGrpChatUsers((prev) => prev.filter((e) => e._id !== userId));
 
-    //If admin is leaving group
-    dispatch(RemoveUserFmGrp(data));
     if (userId === UserInfo._id) {
+      const { data } = await axios.put(
+        "/api/chat/groupremove",
+        { chatId, userId },
+        config
+      );
       dispatch(LeaveGroup());
     }
   };
@@ -152,25 +161,26 @@ const ChatBox = () => {
   //Current message which user types
   const [content, setcontent] = useState("");
 
-
-
   const [scrollload, setscrollload] = useState(false);
 
   //socket.io state
   const [socketconnected, setsocketconnected] = useState(false);
 
   //Temprary message state
-  const [TempMessages,setTempMessage]=useState(Messages);
-  
+  const [TempMessages, setTempMessage] = useState(Messages);
+
+  //Group chat handling
+  const [GrpChatUsers, setGrpChatUsers] = useState([]);
 
   //Calling fetch chat usimg useeffect
   useEffect(() => {
-    if(CurrChat){
-      
-    //Fetching messages of chat as soon as chat loads
-    dispatch(GetMessages(UserInfo, CurrChat._id));
-
-  }
+    if (CurrChat) {
+      //Fetching messages of chat as soon as chat loads
+      dispatch(GetMessages(UserInfo, CurrChat._id));
+      console.log("Curr chat: " + CurrChat.users);
+      setGrpChatUsers(CurrChat.users);
+      console.log(GrpChatUsers);
+    }
   }, []);
 
   //Handling typing
@@ -180,7 +190,7 @@ const ChatBox = () => {
   //For hadnling typing
   const typingHandler = (e) => {
     setcontent(e.target.value);
-    
+
     if (socketconnected) {
       if (!typing) {
         setTyping(true);
@@ -199,13 +209,12 @@ const ChatBox = () => {
     }
   };
   //scroll to top of screen
-  const ScrollTop=()=>{
-    window.scrollTo(0,0);
-  }
+  const ScrollTop = () => {
+    window.scrollTo(0, 0);
+  };
 
   //Use effect for socket.io connection
   useEffect(() => {
-
     //socket io code, HELPS MIN CONNECTING WITH SOCKET IO IN BACKEND
     //Connecting socketio with backend
     socket = io(ENDPOINT);
@@ -213,7 +222,6 @@ const ChatBox = () => {
     socket.emit("setup", UserInfo);
     socket.on("connected", () => {
       setsocketconnected(true);
-   
     });
     //Making user join room(i.e chat)
     socket.emit("join chat", CurrChat._id);
@@ -229,7 +237,7 @@ const ChatBox = () => {
   //Send message handler to send message/call API
   const SendMessageHandler = (e) => {
     e.preventDefault();
-    socket.emit("stop typing",CurrChat._id)
+    socket.emit("stop typing", CurrChat._id);
     dispatch(SendMessage(UserInfo, content, CurrChat._id, socket));
     setcontent("");
     //Fetching messages of chat as soon as chat loads
@@ -240,7 +248,6 @@ const ChatBox = () => {
     setTimeout(() => {
       var box = document.getElementById("message");
       box.scrollTop = box.scrollHeight;
-      
     }, 3500);
   };
 
@@ -257,25 +264,26 @@ const ChatBox = () => {
         console.log("no");
         console.log("give notification");
         dispatch(NotifyUser(newMessageReceived));
-        
       } else {
         //  alert("dispatching")
         console.log("Disptc hing action");
         dispatch(AppendToMessage(newMessageReceived));
         setTimeout(() => {
-      var box = document.getElementById("message");
-      box.scrollTop = box.scrollHeight;
-        },3000);
+          var box = document.getElementById("message");
+          box.scrollTop = box.scrollHeight;
+        }, 3000);
       }
     });
   });
-//  useEffect(()=>{
-//   var box = document.getElementById("message");
-//   box.scrollTop = box.scrollHeight;
-//  },[1000])
-  return CurrChat!==null &&chatloading ? (
+  //  useEffect(()=>{
+  //   var box = document.getElementById("message");
+  //   box.scrollTop = box.scrollHeight;
+  //  },[1000])
+  return CurrChat !== null && chatloading ? (
     <Search_loading />
-  ) :CurrChat===null?<h1>Select a chat</h1>: CurrChat.chatName ? (
+  ) : CurrChat === null ? (
+    <h1>Select a chat</h1>
+  ) : CurrChat.chatName ? (
     <>
       {/* Modal for cretaing group chat */}
       <div className="row center">
@@ -302,7 +310,7 @@ const ChatBox = () => {
             <div className="selected d-flex justify-content-center">
               <div className="row">
                 {/*If group chat displaying users */}
-                {CurrChat.isGroupChat
+                {CurrChat.isGroupChat && CurrChat.groupAdmin === UserInfo._id
                   ? CurrChat.users.map((e) => {
                       return e._id !== UserInfo._id ? (
                         <>
@@ -310,7 +318,7 @@ const ChatBox = () => {
                             className="users2 col-md-6 col-lg-6 col-6"
                             key={e._id}
                           >
-                            <h6>{e.name.toUpperCase()}</h6>
+                            <h6>{e.name.toUpperCase().slice(0, 5)}</h6>
                             <h1
                               className="closeicon2"
                               onClick={(et) => {
@@ -327,7 +335,7 @@ const ChatBox = () => {
               </div>
             </div>
 
-            {CurrChat.isGroupChat ? (
+            {CurrChat.isGroupChat && CurrChat.groupAdmin === UserInfo._id ? (
               <>
                 <div className="inputs">
                   {/*Update group chat section */}
@@ -340,7 +348,9 @@ const ChatBox = () => {
                       value={newgrpname}
                       onChange={(e) => setnewgrpname(e.target.value)}
                     />
-                    <button onClick={UpdateName}>update</button>
+                    <button className="create_chat_btn" onClick={UpdateName}>
+                      update
+                    </button>
                   </div>
                   {/* Searching users directly with help of API */}
                   <input
@@ -353,7 +363,7 @@ const ChatBox = () => {
                     }}
                   />
                 </div>
-                {search.length>=2  ? (
+                {search.length >= 2 ? (
                   <div className="container">
                     <h5 className="text-center mb-4">Search Results</h5>
                     {searchresult.length >= 1 ? (
@@ -432,8 +442,14 @@ const ChatBox = () => {
                         : CurrChat.users[0].name
                       : CurrChat.chatName}
                   </h2>
-                  <div className="typing">{isTyping?"Typing":""}</div>
-                  <div className="iconwrap" onClick={() => {setmodal(!modal);ScrollTop()}}>
+                  <div className="typing">{isTyping ? "Typing" : ""}</div>
+                  <div
+                    className="iconwrap"
+                    onClick={() => {
+                      setmodal(!modal);
+                      ScrollTop();
+                    }}
+                  >
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </div>
                 </div>
@@ -468,7 +484,6 @@ const ChatBox = () => {
                   </div>
 
                   <div className="textbox">
-                
                     <input
                       type="text"
                       name="message"

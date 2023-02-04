@@ -6,7 +6,7 @@ import {
 } from "../Constants/ChatConstants";
 
 export const RenameGroup =(UserInfo, chatId, chatName) => async (dispatch) => {
-  alert("Inside")
+
   dispatch({ type: RENAME_GROUP_CHAT_REQUEST });
   try {
     const config = {

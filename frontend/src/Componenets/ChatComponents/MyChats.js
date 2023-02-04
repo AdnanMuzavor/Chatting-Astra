@@ -282,7 +282,7 @@ const MyChats = () => {
                           className="users2 col-md-6 col-lg-6 col-6"
                           key={e._id}
                         >
-                          <h6>{e.name.toUpperCase()}</h6>
+                          <h6>{e.name.toUpperCase().slice(0,5)}</h6>
                           <h1
                             className="closeicon2"
                             onClick={(et) => {
@@ -320,7 +320,7 @@ const MyChats = () => {
                                 Add={() => AdderUser(e)}
                               />
                             </>
-                          ) : <p className="srch_result">Sorry no user with this name</p>;
+                          ) : null
                         })
                       )}
                     </div>

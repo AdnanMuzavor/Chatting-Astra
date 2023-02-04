@@ -20,6 +20,7 @@ import Lottie from "react-lottie";
 import typinganimation from "../Animations/typing.json";
 import { NotifyUser, UserOpenedNotifiedChat } from "../Actions/Notify_user";
 import { useHistory, useInRouterContext } from "react-router-dom";
+import SideDrawer from "../Componenets/ChatComponents/SideDrawer";
 
 
 
@@ -303,10 +304,14 @@ const ChattingScrren = () => {
   
 
   return chatloading || chatisloading ? (
+    <>
+    <SideDrawer/>
     <Search_loading />
+    </>
   ) : (
     <>
       {/* Modal for cretaing group chat */}
+      <SideDrawer/>
       <div className="row center">
         <div
           className={`modal2 col-md-3 col-lg-3 col-10 ${

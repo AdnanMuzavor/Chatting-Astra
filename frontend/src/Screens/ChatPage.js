@@ -40,7 +40,10 @@ const Chatpage = () => {
           </div>
 
           <div className="col-md-8 col-lg-8 col-12 homeimgcont ">
-           <ChatBox/>
+            {
+              UserInfo?    <ChatBox/>:"Not Successful login"
+            }
+       
            
           </div>
         </div>
