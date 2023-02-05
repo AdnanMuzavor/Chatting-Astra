@@ -14,7 +14,8 @@ import ProfileModal from "../SmallComponents/ProfileModal";
 import SearchResultMiniCard from "../SmallComponents/SearchResultMiniCard";
 import io from "socket.io-client";
 import { NotifyUser } from "../../Actions/Notify_user";
-import {RemoveUserFmGrp} from "../../Actions/Remove_User_from_group";
+import { RemoveUserFmGrp } from "../../Actions/Remove_User_from_group";
+import GroupUser from "../SmallComponents/GroupUserComp";
 //socket io setup
 const ENDPOINT = "http://localhost:5000";
 //https://mern-chat-a-tive.herokuapp.com/
@@ -134,7 +135,7 @@ const ChatBox = () => {
     );
     console.log(data);
     // alert("want to delete: "+userId);
-   dispatch(RemoveUserFmGrp(userId));
+    dispatch(RemoveUserFmGrp(userId));
     setGrpChatUsers((prev) => prev.filter((e) => e._id !== userId));
 
     if (userId === UserInfo._id) {
@@ -309,25 +310,19 @@ const ChatBox = () => {
             {/* List of users selected */}
             <div className="selected d-flex justify-content-center">
               <div className="row">
+                <h5 className="text-center">Users</h5>
                 {/*If group chat displaying users */}
-                {CurrChat.isGroupChat && CurrChat.groupAdmin === UserInfo._id
+                {CurrChat.isGroupChat
                   ? CurrChat.users.map((e) => {
                       return e._id !== UserInfo._id ? (
                         <>
-                          <div
-                            className="users2 col-md-6 col-lg-6 col-6"
+                          <GroupUser
                             key={e._id}
-                          >
-                            <h6>{e.name.toUpperCase().slice(0, 5)}</h6>
-                            <h1
-                              className="closeicon2"
-                              onClick={(et) => {
-                                RemoveUser(e._id);
-                              }}
-                            >
-                              X
-                            </h1>
-                          </div>
+                            userId={e._id}
+                            userName={e.name}
+                            isAdmin={CurrChat.groupAdmin === UserInfo._id}
+                            Remove={RemoveUser}
+                          />
                         </>
                       ) : null;
                     })
@@ -405,7 +400,9 @@ const ChatBox = () => {
                   <div className="modal-body mx-auto">
                     <img
                       src={
-                        CurrChat.users[1]._id != UserInfo._id
+                        CurrChat.isGroupChat
+                          ? "https://tse1.mm.bing.net/th?id=OIP.cHclMF269kDrINbQYMI9VgHaHa&pid=Api&P=0"
+                          : CurrChat.users[1]._id != UserInfo._id
                           ? CurrChat.users[1].pic
                           : CurrChat.users[0].pic
                       }
@@ -413,8 +410,11 @@ const ChatBox = () => {
                       alt="Avatar"
                     />
                     <h4 className="text-center mt-2 mb-2">
-                      {" "}
-                      {CurrChat.users[1]._id != UserInfo._id
+                      {CurrChat.isGroupChat
+                        ? CurrChat.groupAdmin != UserInfo._id
+                          ? "You are not the Admin"
+                          : "You are the Admin"
+                        : CurrChat.users[1]._id != UserInfo._id
                         ? CurrChat.users[1].email
                         : CurrChat.users[0].email}
                     </h4>
