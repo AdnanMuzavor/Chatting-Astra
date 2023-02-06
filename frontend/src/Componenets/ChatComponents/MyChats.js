@@ -77,6 +77,9 @@ const MyChats = () => {
       console.log("data of chat");
       console.log(data);
       setChatList(data);
+      // if(CurrChat==={}){
+      //       alert("Not chat selected")
+      // }
       setchatloading(false);
     } catch (e) {
       setchatloading(false);
@@ -100,7 +103,11 @@ const MyChats = () => {
   const [selectedchat, setselectedchat] = useState("");
 
   //Calling selected Chat function
-  const SelectChat = (userid, isgroup, chatid) => {
+  const SelectChat = (invalid,userid, isgroup, chatid) => {
+    if(invalid){
+      alert("Chat has been disabled");
+      return;
+    }
     setselectedchat(chatid);
     //Set selected chat
     dispatch(setCurrChatVal(userid, UserInfo, isgroup, chatid));
@@ -353,37 +360,40 @@ const MyChats = () => {
           <div className="col-md-12 col-lg-12 col-12 chatlist">
             {ChatList.length >= 1 &&
               ChatList.map((e, i) => {
-                return i >= 0 && e.users.find((e) => e._id === UserInfo._id) ? (
+                return i >= 0  && e.users.find((e) => e._id === UserInfo._id) ? (
                   <ChatListCard
                     key={e._id}
                     name={
-                      e.users.length === 2
+
+                      e.users.length === 2 && !e.isGroupChat
                         ? e.users[1]._id != UserInfo._id
                           ? e.users[1].name
                           : e.users[0].name
                         : e.chatName
                     }
                     email={
-                      e.users.length === 2
+                      e.users.length === 2 && !e.isGroupChat
                         ? e.users[1]._id != UserInfo._id
                           ? e.users[1].email
                           : e.users[0].email
                         : "Group Chat"
                     }
                     pic={
-                      e.users.length === 2
+                      e.users.length === 2 && !e.isGroupChat
                         ? e.users[1]._id != UserInfo._id
                           ? e.users[1].pic
                           : e.users[0].pic
                         : "https://tse1.mm.bing.net/th?id=OIP.hD_nnTOg6EuVo4Wyur927wHaE8&pid=Api&P=0&w=246&h=164"
                     }
                     // SelectChatFn={() => SelectChat(e.users[1]._id)}
-
+                    
                     SelectChatFn={() =>
                       SelectChat(
-                        e.users[1]._id !== UserInfo._id
+                        e.users.length<2
+                        ,
+                       e.users.length>=2? e.users[1]._id !== UserInfo._id
                           ? e.users[1]._id
-                          : e.users[0]._id,
+                          : e.users[0]._id:-1,
                         e.isGroupChat,
                         e._id
                       )

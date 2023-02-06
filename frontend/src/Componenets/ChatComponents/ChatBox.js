@@ -310,7 +310,10 @@ const ChatBox = () => {
             {/* List of users selected */}
             <div className="selected d-flex justify-content-center">
               <div className="row">
-                <h5 className="text-center">Users</h5>
+                {
+                  CurrChat.isGroupChat && <h5 className="text-center">Users</h5>
+                }
+                
                 {/*If group chat displaying users */}
                 {CurrChat.isGroupChat
                   ? CurrChat.users.map((e) => {

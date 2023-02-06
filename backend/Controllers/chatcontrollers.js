@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { populate, find } = require("../Models/Chatmodel");
 const Chat = require("../Models/Chatmodel");
 const User = require("../Models/userModel");
+const Message = require("../Models/MessageModel");
 //SINGLE CHAT RELATED FUNCTIONS
 
 //access chat fn means to create chat with a user
@@ -40,7 +41,7 @@ const accesschat = asyncHandler(async (req, res) => {
     res.send(ischat[0]);
   } else {
     // console.log("chat didn't existed:");
-    const otherUser=await User.findById({_id:userid})
+    const otherUser = await User.findById({ _id: userid });
     //creating a new chat
     var chatdata = {
       chatName: "sender",
@@ -79,8 +80,7 @@ const accessgroupchat = asyncHandler(async (req, res) => {
   //i.e curr user id and user id of user with whom we want to have new chat is present(both are present)
   var ischat = await Chat.find({
     isGroupChat: true,
-    _id:chatid,
-  
+    _id: chatid,
   })
     .populate("users", "-password")
     .populate("latestMessage"); //means populate/replace user id with entire user info except password
@@ -97,7 +97,7 @@ const accessgroupchat = asyncHandler(async (req, res) => {
     res.send(ischat[0]);
   } else {
     // console.log("chat didn't existed:");
-    const otherUser=await User.findById({_id:userid})
+    const otherUser = await User.findById({ _id: userid });
     //creating a new chat
     var chatdata = {
       chatName: "sender",
@@ -140,7 +140,29 @@ const fetchchats = asyncHandler(async (req, res) => {
       path: "latestMessage.sender",
       select: "name pic email",
     });
-    res.send(finalres);
+    console.log("File response is: ");
+    console.log(finalres);
+
+    // => Filter out the group chats which have only 1 user as they arent logically group chats
+    const filterin=finalres.filter(
+      (e) => !(e.isGroupChat) || (e.isGroupChat && e.users.length>=2)
+    );
+    console.log("filterin")
+    console.log(filterin);
+    const filterout = finalres.filter(
+      (e) => e.isGroupChat && e.users.length <= 1
+    );
+    console.log("filterout")
+    console.log(filterout);
+    filterout.forEach(async (chat) => {
+      const removeChat = await Chat.findByIdAndDelete(chat._id, { new: true });
+      const remoceMessages= await Message.deleteMany({chat:chat._id});
+      console.log("chat removed: ");
+     console.log(removeChat);
+      console.log("messages removed");
+      console.log(remoceMessages);
+    });
+    res.send(filterin);
   } catch (e) {
     console.log(e);
     res.status(400).send({ Message: "Could not create a chat" });
@@ -259,7 +281,17 @@ const removefromgroup = asyncHandler(async (req, res) => {
       .populate("groupAdmin", "-password");
     if (removeUser) {
       res.status(200);
+      console.log("Removed user " + userId + " from " + chatId);
+      console.log(removeUser);
       res.json(removeUser);
+      if (removeUser.users.length === 0) {
+        const removeChat = await Chat.findByIdAndDelete(chatId);
+        const removeMessages=await Message.deleteMany({chat:chatId});
+        console.log("removed messages");
+        console.log(removeMessages);
+        console.log("Removed empty user chat");
+        console.log(removeChat);
+      }
       return;
     } else {
       res.status(404);
@@ -277,5 +309,5 @@ module.exports = {
   renamegroup,
   addgroupmembers,
   removefromgroup,
-  accessgroupchat
+  accessgroupchat,
 };
