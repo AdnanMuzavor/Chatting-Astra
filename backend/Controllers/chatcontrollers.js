@@ -221,7 +221,7 @@ const renamegroup = asyncHandler(async (req, res) => {
       }
     )
       .populate("users", "-password")
-      .populate("groupAdmin", "-password");
+    
     //If updated chat is undefined mkeans some error
     if (!findgroupchatandupdate) {
       throw new Error("Chat not found");
@@ -250,7 +250,7 @@ const addgroupmembers = asyncHandler(async (req, res) => {
       }
     )
       .populate("users", "-password")
-      .populate("groupAdmin", "-password");
+      
     if (updatedgroup) {
       res.json(updatedgroup);
     } else {

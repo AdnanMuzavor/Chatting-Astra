@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 const GroupUser = ({ userId, userName, isAdmin, Remove }) => {
+   useEffect(()=>{
+        console.log("is admin says: "+isAdmin);
+   },[])
   return (
     <>
       <div className="users2 col-md-6 col-lg-6 col-6" key={userId}>

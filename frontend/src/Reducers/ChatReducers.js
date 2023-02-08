@@ -44,6 +44,7 @@ export const ChatReducers = (
     case RENAME_GROUP_CHAT_REQUEST:
       return { ...state, chatloading: true };
     case RENAME_GROUP_CHAT_SUCCESS:
+      state.CurrChat.chatName="";
       return {
         ...state,
         chatloading: false,

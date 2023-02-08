@@ -48,6 +48,8 @@ const ChatBox = () => {
   //While search is loading
   const [searchloading, setsearchloading] = useState(false);
 
+  //To check for gtou[p admin
+  const [groupAdminId, setgroupAdminId] = useState("");
   //New group name
   const [newgrpname, setnewgrpname] = useState("");
 
@@ -116,6 +118,7 @@ const ChatBox = () => {
 
     dispatch(AddnewUserToGrp(UserInfo, newUserId, chatId));
     setsearch("");
+    setmodal(false);
   };
 
   //Function to remove user from group
@@ -136,7 +139,7 @@ const ChatBox = () => {
     console.log(data);
     // alert("want to delete: "+userId);
     dispatch(RemoveUserFmGrp(userId));
-    setGrpChatUsers((prev) => prev.filter((e) => e._id !== userId));
+    // setGrpChatUsers((prev) => prev.filter((e) => e._id !== userId));
 
     if (userId === UserInfo._id) {
       const { data } = await axios.put(
@@ -180,6 +183,13 @@ const ChatBox = () => {
       dispatch(GetMessages(UserInfo, CurrChat._id));
       console.log("Curr chat: " + CurrChat.users);
       setGrpChatUsers(CurrChat.users);
+      setgroupAdminId(
+        CurrChat.isGroupChat
+          ? CurrChat.groupAdmin._id
+            ? CurrChat.groupAdmin._id
+            : CurrChat.groupAdmin
+          : ""
+      );
       console.log(GrpChatUsers);
     }
   }, []);
@@ -273,6 +283,7 @@ const ChatBox = () => {
           var box = document.getElementById("message");
           box.scrollTop = box.scrollHeight;
         }, 3000);
+     
       }
     });
   });
@@ -310,10 +321,8 @@ const ChatBox = () => {
             {/* List of users selected */}
             <div className="selected d-flex justify-content-center">
               <div className="row">
-                {
-                  CurrChat.isGroupChat && <h5 className="text-center">Users</h5>
-                }
-                
+                {CurrChat.isGroupChat && <h5 className="text-center">Users</h5>}
+
                 {/*If group chat displaying users */}
                 {CurrChat.isGroupChat
                   ? CurrChat.users.map((e) => {
@@ -323,7 +332,11 @@ const ChatBox = () => {
                             key={e._id}
                             userId={e._id}
                             userName={e.name}
-                            isAdmin={CurrChat.groupAdmin === UserInfo._id}
+                            isAdmin={
+                              CurrChat.groupAdmin._id
+                                ? CurrChat.groupAdmin._id == UserInfo._id
+                                : CurrChat.groupAdmin == UserInfo._id
+                            }
                             Remove={RemoveUser}
                           />
                         </>

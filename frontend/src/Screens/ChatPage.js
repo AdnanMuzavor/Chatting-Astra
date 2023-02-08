@@ -25,6 +25,7 @@ const Chatpage = () => {
       history.push("/");
     }
     console.log(UserInfo);
+    console.log("User info from problem");
   }, []);
   return (
     <>
@@ -41,7 +42,7 @@ const Chatpage = () => {
 
           <div className="col-md-8 col-lg-8 col-12 homeimgcont ">
             {
-              UserInfo?    <ChatBox/>:"Not Successful login"
+              UserInfo && UserInfo._id?    <ChatBox/>:"Not Successful login"
             }
        
            
