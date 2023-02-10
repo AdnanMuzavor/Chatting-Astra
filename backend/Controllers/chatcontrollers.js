@@ -281,16 +281,13 @@ const removefromgroup = asyncHandler(async (req, res) => {
       .populate("groupAdmin", "-password");
     if (removeUser) {
       res.status(200);
-      console.log("Removed user " + userId + " from " + chatId);
-      console.log(removeUser);
+      // console.log("Removed user " + userId + " from " + chatId);
+      // console.log(removeUser);
       res.json(removeUser);
       if (removeUser.users.length === 0) {
         const removeChat = await Chat.findByIdAndDelete(chatId);
         const removeMessages=await Message.deleteMany({chat:chatId});
-        console.log("removed messages");
-        console.log(removeMessages);
-        console.log("Removed empty user chat");
-        console.log(removeChat);
+        
       }
       return;
     } else {

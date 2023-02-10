@@ -31,6 +31,8 @@ namely folders for modals,middleware,routers and app.js file
 | :-------- | :------- | :------------------------- |
 | `Middleware` | `Backend` | **Authenticates** the user using jwt token. |
 | `config` | `Backend` | Deals with **DB connection**, creates and returns **token**.|
+| `controllers` | `Backend` | Definition of functions called when **API request** is made.|
+| `models` | `database` | Define database schemas fro entities in the website.|
 
 
 
