@@ -54,5 +54,5 @@ namely folders namely actions, reducers used for redux, components and screens f
 | `Constants` | `Frontend/Redux` | Have constants used in various Actions.|
 | `Reducers` | `Frontend/Redux` | As per the action dispatched along with payload sent from action,it updates the state accordingly|
 | `Screen` | `Frontend` | This folder has different screens in the app.|
-| `models` | `dFrontend | Define database schemas for entities in the website.|
+
 
