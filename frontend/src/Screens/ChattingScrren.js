@@ -9,7 +9,7 @@ import { AppendToMessage, GetMessages } from "../Actions/Get_Messages";
 import { RemoveUserFmGrp } from "../Actions/Remove_User_from_group";
 import { SendMessage } from "../Actions/Send_Message";
 import { RenameGroup } from "../Actions/Update_Grp_Chat_name";
-import { isLastMessage, isSameSender } from "../Helpers/User_Message_helper";
+
 import Search_loading from "../Componenets/Loadingcomponents/search_results_loading";
 
 import SearchResultMiniCard from "../Componenets/SmallComponents/SearchResultMiniCard";
@@ -18,8 +18,8 @@ import { AddnewUserToGrp } from "../Actions/Add_New_User";
 import { LeaveGroup } from "../Actions/Current_Chat";
 import Lottie from "react-lottie";
 import typinganimation from "../Animations/typing.json";
-import { NotifyUser, UserOpenedNotifiedChat } from "../Actions/Notify_user";
-import { useHistory, useInRouterContext } from "react-router-dom";
+import { NotifyUser } from "../Actions/Notify_user";
+import { useHistory} from "react-router-dom";
 import SideDrawer from "../Componenets/ChatComponents/SideDrawer";
 
 

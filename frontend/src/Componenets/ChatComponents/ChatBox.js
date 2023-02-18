@@ -8,7 +8,7 @@ import { AppendToMessage, GetMessages } from "../../Actions/Get_Messages";
 
 import { SendMessage } from "../../Actions/Send_Message";
 import { RenameGroup } from "../../Actions/Update_Grp_Chat_name";
-import { isLastMessage, isSameSender } from "../../Helpers/User_Message_helper";
+
 import Search_loading from "../Loadingcomponents/search_results_loading";
 import ProfileModal from "../SmallComponents/ProfileModal";
 import SearchResultMiniCard from "../SmallComponents/SearchResultMiniCard";
