@@ -13,7 +13,7 @@
 It is a real time website where user can:
 - signup and login.
 - search for other users. 
-- can create a chat with any serached user after being authenticated.
+- can create a chat with any searched user after being authenticated.
 - can create groups and being group admin have privilege to add/remove members and rename group. 
 - can leave a group if group member.
 
