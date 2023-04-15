@@ -16,6 +16,7 @@ import io from "socket.io-client";
 import { NotifyUser } from "../../Actions/Notify_user";
 import { RemoveUserFmGrp } from "../../Actions/Remove_User_from_group";
 import GroupUser from "../SmallComponents/GroupUserComp";
+
 //socket io setup
 const ENDPOINT = "http://localhost:5000";
 //https://mern-chat-a-tive.herokuapp.com/
@@ -226,6 +227,8 @@ const ChatBox = () => {
 
   //Use effect for socket.io connection
   useEffect(() => {
+    console.log(UserInfo)
+    console.log(CurrChat)
     //socket io code, HELPS MIN CONNECTING WITH SOCKET IO IN BACKEND
     //Connecting socketio with backend
     socket = io(ENDPOINT);
@@ -291,7 +294,7 @@ const ChatBox = () => {
   //   var box = document.getElementById("message");
   //   box.scrollTop = box.scrollHeight;
   //  },[1000])
-  return CurrChat !== null && chatloading ? (
+  return UserInfo && CurrChat !== null && chatloading ? (
     <Search_loading />
   ) : CurrChat === null ? (
     <h1>Select a chat</h1>

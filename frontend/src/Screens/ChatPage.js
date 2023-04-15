@@ -18,7 +18,9 @@ const Chatpage = () => {
   //Getting user data
   const UserDetails = useSelector((state) => state.UserDetails);
   const { loading: userloading, error, UserInfo } = UserDetails;
-
+   //Getting state of chat
+   const ChatDetails = useSelector((state) => state.ChatDetails);
+   const { chatloading, error2, CurrChat } = ChatDetails;
   const history = useHistory();
   useEffect(() => {
     if (!UserInfo.name) {
@@ -42,7 +44,7 @@ const Chatpage = () => {
 
           <div className="col-md-8 col-lg-8 col-12 homeimgcont ">
              {
-              UserInfo && UserInfo._id?    <ChatBox/>:"Not Successful login"
+              UserInfo && CurrChat!==null?   <ChatBox/>:"No chat has been selected"
             } 
        
            
