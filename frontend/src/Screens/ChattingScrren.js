@@ -28,7 +28,7 @@ import SideDrawer from "../Componenets/ChatComponents/SideDrawer";
 //
 const ENDPOINT = "http://localhost:5000";
 //const ENDPOINT = "https://mern-chat-a-tive.herokuapp.com/";
-
+console.log(ENDPOINT)
 var socket, selectedChatCompare;
 
 const ChattingScrren = () => {
@@ -239,12 +239,14 @@ const ChattingScrren = () => {
     }
     //socket io code, HELPS MIN CONNECTING WITH SOCKET IO IN BACKEND
     //Connecting socketio with backend
+   
     socket = io(ENDPOINT);
-
+    alert(socket)
     //Creating room for user
     socket.emit("setup", UserInfo);
 
     socket.on("connected", () => {
+      alert("Socket connected")
       /*  alert(
         `Opening chat: ${CurrChat._id} which is ${
           CurrChat.isGroupChat ? "is" : "is not"
@@ -281,7 +283,7 @@ const ChattingScrren = () => {
     });
 
   }, [socket]);
-  useEffect(() => {});
+
 
   //Animation details
   const defaultOptions = {
